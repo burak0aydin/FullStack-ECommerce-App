@@ -84,5 +84,21 @@ Bu doküman, Burak Aydın tarafından belirlenen e-ticaret uygulaması gereksini
 ---
 
 ## 10. Ödeme Ekranı İçeriği: Kart Bilgileri, Adres Bilgileri, Kartı Kaydetme Seçeneği, E-mail ve Ödeme Butonu (Burak Aydın)
-- **Amaç:** Kullanıcının 
+- **Amaç:** Kullanıcının güvenli bir şekilde ödeme işlemini tamamlamasını sağlamak.
+- **İşlevler:**
+  - **Kart Bilgileri:** Kart numarası, yıl ve CVC gibi bilgilerin girilmesi.
+  - **Adres Bilgileri:** Ülke/şehir, posta kodu gibi teslimat/fatura adres bilgilerinin sağlanması.
+  - **Kartı Kaydetme Seçeneği:** Gelecekteki ödemeler için kart bilgisinin saklanması.
+  - **E-mail Adresi:** İletişim ve fatura gönderimi için gerekli bilginin alınması.
+  - **Ödeme Butonu:** İşlemin tamamlanmasını sağlayan aksiyon düğmesinin yer alması.
 
+---
+
+## 11. Profil Sayfası İçeriği: İsim, Soyisim, Adres, Düzenleme İşlemleri ve Çıkış Yapma Butonu (Burak Aydın)
+- **Amaç:** Kullanıcının kişisel bilgilerini görüntülemesi ve düzenlemesini sağlamak.
+- **İşlevler:**
+  - Kişisel bilgilerin (isim, soyisim, adres) gösterilmesi.
+  - Kullanıcının bilgilerini güncellemesi için sezgisel düzenleme (kaydırarak düzenleme) imkanı.
+  - Oturum kapatma işlemi için çıkış yapma butonunun eklenmesi.
+
+---
