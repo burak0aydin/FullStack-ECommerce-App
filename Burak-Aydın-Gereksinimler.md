@@ -1,10 +1,4 @@
-# E-Ticaret Uygulaması Gereksinimleri
-
-Bu doküman, Burak Aydın tarafından belirlenen e-ticaret uygulaması gereksinimlerini detaylandırmaktadır.
-
----
-
-## 1. Giriş Sayfası: Üye Olma İşlemi (Burak Aydın)
+## 1. Giriş Sayfası: Üye Olma İşlemi 
 - **Amaç:** Üye olmayan kullanıcıların sisteme kayıt olmasını sağlamak.
 - **İşlevler:**
   - Kullanıcının ad, e-posta, şifre gibi bilgileri girmesi.
@@ -12,15 +6,15 @@ Bu doküman, Burak Aydın tarafından belirlenen e-ticaret uygulaması gereksini
 
 ---
 
-## 2. Giriş Sayfası: Kayıt Olma İşlemi (Burak Aydın)
+## 2. Giriş Sayfası: Kayıt Olma İşlemi
 - **Amaç:** Mevcut kullanıcıların sisteme giriş yapmasını sağlamak.
 - **İşlevler:**
-  - Kullanıcının e-posta/telefon ve şifre bilgilerini girerek oturum açması.
+  - Kullanıcının ad, e-posta ve şifre bilgilerini girerek oturum açması.
   - Giriş doğrulaması, hatalı bilgi girildiğinde uyarı mekanizması ve güvenli oturum açma.
 
 ---
 
-## 3. Ana Sayfa Tasarımı: Ürünlerin Ana Ekranda Görüntü, İsim ve Fiyat Olarak Listelenmesi (Burak Aydın)
+## 3. Ana Sayfa Tasarımı: Ürünlerin Ana Ekranda Görüntü, İsim ve Fiyat Olarak Listelenmesi 
 - **Amaç:** Ürünlerin kullanıcıya çekici ve düzenli bir biçimde sunulması.
 - **İşlevler:**
   - Ürün görsellerinin, isimlerinin ve fiyat bilgilerinin listelenmesi.
@@ -28,7 +22,7 @@ Bu doküman, Burak Aydın tarafından belirlenen e-ticaret uygulaması gereksini
 
 ---
 
-## 4. Admin Ürün Yükleme Ekranı Tasarımı: Ürün İsmi, Açıklama, Fiyat, Resim Yükleme İşlemi (Burak Aydın)
+## 4. Admin Ürün Yükleme Ekranı Tasarımı: Ürün İsmi, Açıklama, Fiyat, Resim Yükleme İşlemi 
 - **Amaç:** Yöneticinin yeni ürün eklemesini sağlamak.
 - **İşlevler:**
   - **Ürün İsmi:** Ürünü tanımlayan başlık girişi.
@@ -38,7 +32,7 @@ Bu doküman, Burak Aydın tarafından belirlenen e-ticaret uygulaması gereksini
 
 ---
 
-## 5. Admin Ürün Sayfası İçeriği: Yükleyen Kişiye Ait Ürünlerin Listelenmesi (Burak Aydın)
+## 5. Admin Ürün Sayfası İçeriği: Yükleyen Kişiye Ait Ürünlerin Listelenmesi
 - **Amaç:** Yöneticinin yüklediği ürünleri genel bir bakışla sunmak.
 - **İşlevler:**
   - Ürün isimleri, açıklamaları, fiyatları ve resimlerinin listelenmesi.
@@ -46,7 +40,7 @@ Bu doküman, Burak Aydın tarafından belirlenen e-ticaret uygulaması gereksini
 
 ---
 
-## 6. Admin Sayfası Kontrol İşlemleri: Ürün Düzenleme ve Silme İşlemleri (Burak Aydın)
+## 6. Admin Sayfası Kontrol İşlemleri: Ürün Düzenleme ve Silme İşlemleri
 - **Amaç:** Mevcut ürünler üzerinde değişiklik yapma veya silme işlemlerini gerçekleştirmek.
 - **İşlevler:**
   - Ürün bilgilerinin güncellenmesi (düzenleme).
@@ -55,16 +49,16 @@ Bu doküman, Burak Aydın tarafından belirlenen e-ticaret uygulaması gereksini
 
 ---
 
-## 7. Ürün Sayfası Görünümü: Ürün İsim, Açıklama, Fiyat, Resim, Ürün Adedi, Sipariş Butonunun Olduğu Sayfa (Burak Aydın)
+## 7. Ürün Sayfası Görünümü: Ürün İsim, Açıklama, Fiyat, Resim, Ürün Adedi, Sipariş Butonunun Olduğu Sayfa
 - **Amaç:** Her ürün için detaylı bilgi sunmak ve alışverişe yönlendirmek.
 - **İşlevler:**
   - Ürün adı, açıklaması, fiyatı ve görselinin gösterilmesi.
-  - Mevcut stok adedinin görüntülenmesi.
+  - Satın almak için adedinin görüntülenmesi.
   - Kullanıcının ürünü sepete ekleyebilmesi için sipariş butonunun yer alması.
 
 ---
 
-## 8. Ürün Sipariş Sepeti Sayfası İçeriği: Ürün İsimleri, Fiyatları, Resimleri, Adetleri, Adet Değiştirme Butonları ve Sipariş Butonları (Burak Aydın)
+## 8. Ürün Sipariş Sepeti Sayfası İçeriği: Ürün İsimleri, Fiyatları, Resimleri, Adetleri, Adet Değiştirme Butonları ve Sipariş Butonları
 - **Amaç:** Kullanıcının seçtiği ürünleri gözden geçirebileceği ve düzenleyebileceği bir sepet sunmak.
 - **İşlevler:**
   - Her ürün için isim, fiyat, resim ve adet bilgisinin listelenmesi.
@@ -74,7 +68,7 @@ Bu doküman, Burak Aydın tarafından belirlenen e-ticaret uygulaması gereksini
 
 ---
 
-## 9. Sipariş Son Kontrol Sayfası İçeriği: Adres, Toplam Fiyat, Ürün İsimleri, Fiyatları, Resimleri, Adetleri, Adet Değiştirme Butonları ve Sipariş Butonları (Burak Aydın)
+## 9. Sipariş Son Kontrol Sayfası İçeriği: Adres, Toplam Fiyat, Ürün İsimleri, Fiyatları, Resimleri, Adetleri, Adet Değiştirme Butonları ve Sipariş Butonları 
 - **Amaç:** Sipariş öncesi son kontrol ve onay işlemlerini gerçekleştirmek.
 - **İşlevler:**
   - Teslimat adresi ve toplam ödeme tutarının görüntülenmesi.
@@ -83,7 +77,7 @@ Bu doküman, Burak Aydın tarafından belirlenen e-ticaret uygulaması gereksini
 
 ---
 
-## 10. Ödeme Ekranı İçeriği: Kart Bilgileri, Adres Bilgileri, Kartı Kaydetme Seçeneği, E-mail ve Ödeme Butonu (Burak Aydın)
+## 10. Ödeme Ekranı İçeriği: Kart Bilgileri, Adres Bilgileri, Kartı Kaydetme Seçeneği, E-mail ve Ödeme Butonu
 - **Amaç:** Kullanıcının güvenli bir şekilde ödeme işlemini tamamlamasını sağlamak.
 - **İşlevler:**
   - **Kart Bilgileri:** Kart numarası, yıl ve CVC gibi bilgilerin girilmesi.
@@ -94,7 +88,7 @@ Bu doküman, Burak Aydın tarafından belirlenen e-ticaret uygulaması gereksini
 
 ---
 
-## 11. Profil Sayfası İçeriği: İsim, Soyisim, Adres, Düzenleme İşlemleri ve Çıkış Yapma Butonu (Burak Aydın)
+## 11. Profil Sayfası İçeriği: İsim, Soyisim, Adres, Düzenleme İşlemleri ve Çıkış Yapma Butonu
 - **Amaç:** Kullanıcının kişisel bilgilerini görüntülemesi ve düzenlemesini sağlamak.
 - **İşlevler:**
   - Kişisel bilgilerin (isim, soyisim, adres) gösterilmesi.
