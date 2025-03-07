@@ -7,7 +7,7 @@ uygulamanın hızlı çalışması, aradığınız her şeye anında erişebilme
 
 **Proje Kategorisi:** E-Ticaret
 
-**Referans Uygulama:** 
+**Referans Uygulama:** [Application Design](Application-Design.md)
 
 **Uygulama Adresi:**
 
