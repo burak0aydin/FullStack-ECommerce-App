@@ -1,24 +1,19 @@
-# NETWORTH
-**Proje tanımı** : NetWorth, profesyonellerin, girişimcilerin ve iş dünyasındaki liderlerin bir araya geldiği etkileşimli ve bağlantı odaklı bir sosyal ağ platformudur. Bu platform, kullanıcılarına kariyerlerini güçlendirmek, iş fırsatlarını keşfetmek ve sektördeki en yeni gelişmeleri takip etmek için bir araç sunar.
+# WORTHSHOP
+**Proje tanımı** : WORTHSHOP Mobil Uygulaması ile alışveriş deneyiminizi yepyeni bir boyuta taşıyın. Sade ve kullanıcı dostu tasarımı sayesinde ürünler arasında gezinmek oldukça pratik; uygulamanın hızlı çalışması, aradığınız her şeye anında erişebilmenizi sağlıyor. Geniş ürün portföyümüzde, en yeni trendleri yansıtan kaliteli markaların ürünleri yer alırken, güvenli ödeme seçenekleri ve hızlı teslimat hizmetlerimiz ile alışveriş süreciniz sorunsuz ilerliyor. WORTHSHOP olarak, müşteri memnuniyetini her zaman en üst seviyede tutmayı hedefliyoruz. Mobil uygulamamızı keşfedin ve alışverişte farkı yaşayın.
 <br><br>
-**Proje Kategorisi**: Sosyal Medya
+**Proje Kategorisi**: E-Ticaret
 <br>
-**Referans uygulama**: [linkedin.com](https://www.linkedin.com/feed/)
+**Referans uygulama**: 
 <br>
-**Uygulama adresi**: [NetWorth.com](https://networth.website/)
+**Uygulama adresi**:
 <br>
-**Grup Adı**: NetWorth
+**Grup Adı**: WORTHSHOP
 <br>
-**Proje Ekibi**: Celal Berke Akyol, Mehmet Barış Güdül, Emre Akcan, Ali Önsöz
+**Proje Ekibi**: Burak Aydın
 <br>
-[1- Proje Planı ](proje-planı.md)
-<br>
-[2- Gereksinim Analizi](gereksinimler.md)
-<br>
-[3- Durum Diyagram](durum-diyagramı.md)<br>
-[4- Durum Senaryoları](kullanıcı-durum-senaryoları.md)<br>
-[5- Veri Tabanı Diyagramı](veri-tabanı-diyagramı.md) <br>
-[6- Front-end ](FrontEnd/frontend.md)<br>
-[7- Back-end](NetworthDosyalar)<br>
-[8- Test](test.md)<br>
-[9- Kullanıcı ve Geliştirici Dökümantasyonu](kullanici-gelistirici-dokumantasyon.md)<br>
+[1. Gereksinim Analizi ](Gereksinim-Analizi.md)<br>
+[2. Durum Diyagramı](Durum-Diyagramı.md)<br>
+[3. Durum Senaryoları](Durum-Senaryoları.md)<br>
+[4. Front-End ](Front-End.md)<br>
+[5. Back-End](Back-End.md)<br>
+[6. Video Sunum](Sunum.md)
