@@ -1,6 +1,10 @@
 # Gereksinimler
 1. Giriş sayfası : Üye Olma işlemi (Burak Aydın)
 2. Giriş sayfası : Kayıt Olma işlemi (Burak Aydın)
+<img width="299" alt="LoginPage" src="https://github.com/user-attachments/assets/82ea8cfa-8001-42b2-a707-ee3529cbfa6c" />
+
+
+
 3. Ana sayfa tasarımı : Ürünlerin ana ekranda görüntü, isim ve fiyat olarak listelenmesi (Burak Aydın)
 4. Admin Ürün yükleme ekranı tasarımı : Ürün ismi, ürün açıklaması, ürün fiyatı, ürün resmi yükleme işlemi (Burak Aydın)
 5. Admin Ürün sayfası içeriği : yükleyen kişiye ait Ürün ismi, ürün açıklaması, ürün fiyatı, ürün resimlerini listeler (Burak Aydın)
