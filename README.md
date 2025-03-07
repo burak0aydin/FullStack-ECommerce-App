@@ -1,16 +1,17 @@
 # WORTHSHOP
+<br><br>
 **Proje tanımı** : WORTHSHOP Mobil Uygulaması ile alışveriş deneyiminizi yepyeni bir boyuta taşıyın. Sade ve kullanıcı dostu tasarımı sayesinde ürünler arasında gezinmek oldukça pratik; uygulamanın hızlı çalışması, aradığınız her şeye anında erişebilmenizi sağlıyor. Geniş ürün portföyümüzde, en yeni trendleri yansıtan kaliteli markaların ürünleri yer alırken, güvenli ödeme seçenekleri ve hızlı teslimat hizmetlerimiz ile alışveriş süreciniz sorunsuz ilerliyor. WORTHSHOP olarak, müşteri memnuniyetini her zaman en üst seviyede tutmayı hedefliyoruz. Mobil uygulamamızı keşfedin ve alışverişte farkı yaşayın.
 <br><br>
 **Proje Kategorisi**: E-Ticaret
-<br>
+<br><br>
 **Referans uygulama**: 
-<br>
+<br><br>
 **Uygulama adresi**:
-<br>
+<br><br>
 **Grup Adı**: WORTHSHOP
-<br>
+<br><br>
 **Proje Ekibi**: Burak Aydın
-<br>
+<br><br>
 [1. Gereksinim Analizi ](Gereksinim-Analizi.md)<br>
 [2. Durum Diyagramı](Durum-Diyagramı.md)<br>
 [3. Durum Senaryoları](Durum-Senaryoları.md)<br>
