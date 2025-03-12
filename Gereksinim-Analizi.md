@@ -2,7 +2,7 @@
 2. Kayıt Ol - (Burak Aydın)
 3. Ürünleri Göster - (Burak Aydın)
 4. Ürünlerin Detaylarını Görüntüle - (Burak Aydın)
-5. Sepete Ekleme - (Burak Aydın)
+5. Sepete Ekle - (Burak Aydın)
 6. Sepeti Görüntüle - (Burak Aydın)
 7. PayPal/Stripe Benzeri Platformla Ödeme - (Burak Aydın)
 8. Kredi Kartı İle Ödeme - (Burak Aydın)
