@@ -7,7 +7,7 @@
 7. PayPal/Stripe Benzeri Platformla Ödeme - (Burak Aydın)
 8. Kredi Kartı İle Ödeme - (Burak Aydın)
 9. Profili Görüntüle - (Burak Aydın)
-10. Ürün Ekleme - (Burak Aydın)
+10. Admin Ürün Ekleme - (Burak Aydın)
 11. Admin Ürün Düzenleme - (Burak Aydın)
 12. Admin Ürün Silme - (Burak Aydın)
 
