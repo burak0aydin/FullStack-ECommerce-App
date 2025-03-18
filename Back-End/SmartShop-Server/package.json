@@ -1,11 +1,19 @@
 {
   "name": "smartshop-server",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "express": "^4.21.2",
+    "pg": "^8.14.1",
+    "sequelize": "^6.37.6"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
 }
