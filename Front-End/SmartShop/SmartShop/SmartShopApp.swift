@@ -11,7 +11,9 @@ import SwiftUI
 struct SmartShopApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationStack {
+                RegistrationScreen()
+            }.environment(\.authenticationController, .development)
         }
     }
 }

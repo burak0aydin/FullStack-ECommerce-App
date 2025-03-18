@@ -75,10 +75,10 @@
 		301CB4BF2D8A19BD00E1E8E2 = {
 			isa = PBXGroup;
 			children = (
+				301CB4C92D8A19BD00E1E8E2 /* Products */,
 				301CB4CA2D8A19BD00E1E8E2 /* SmartShop */,
 				301CB4DB2D8A19BF00E1E8E2 /* SmartShopTests */,
 				301CB4E52D8A19BF00E1E8E2 /* SmartShopUITests */,
-				301CB4C92D8A19BD00E1E8E2 /* Products */,
 			);
 			sourceTree = "<group>";
 		};

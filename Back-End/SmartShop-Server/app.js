@@ -2,8 +2,12 @@ const express = require('express')
 const models = require('./models')
 const { Op } = require('sequelize');
 const bcrypt = require('bcryptjs')
+const cors = require('cors')
 const { body, validationResult } = require('express-validator');
 const app = express()
+
+// CORS
+app.use(cors())
 
 // JSON parser 
 app.use(express.json())
@@ -13,7 +17,7 @@ const registerValidator = [
     body('password', 'password cannot be empty.').not().isEmpty()
 ]
 
-app.post('/register', registerValidator, async (req, res) => {
+app.post('/api/auth/register', registerValidator, async (req, res) => {
 
     const errors = validationResult(req)
     if (!errors.isEmpty()) {

@@ -24,3 +24,11 @@ struct AuthenticationController {
     
 }
 
+extension AuthenticationController {
+    
+    static var development: AuthenticationController {
+        AuthenticationController(httpClient: HTTPClient())
+    }
+    
+}
+
