@@ -10,4 +10,13 @@ import Foundation
 struct AuthenticationController {
     
     let httpClient: HTTPClient
+    
+    func register(username: String, password: String) {
+        
+        let resource = Resource(url: URL, method: .post([]), modelType: ResponseType)
+        httpClient.load(resource)
+        
+    }
+    
 }
+
