@@ -5,12 +5,11 @@ const authRoutes = require('./routes/auth')
 
 const app = express()
 
-// CORS
+// CORS 
 app.use(cors())
-
 // JSON parser 
 app.use(express.json())
-// register our routers
+// register our routers 
 app.use('/api/auth', authRoutes)
 
 // start the server 

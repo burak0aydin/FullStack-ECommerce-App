@@ -1,57 +1,53 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const models = require('../models')
-const { Op } = require('sequelize')
-const { validationResult } = require('express-validator')
+const { Op } = require('sequelize');
+const { validationResult } = require('express-validator');
 
 exports.login = async (req, res) => {
 
     try {
+     // Validate input
+     const errors = validationResult(req);
+     if (!errors.isEmpty()) {
 
-    //validate the request
-    const errors = validationResult(req)
-    if (!errors.isEmpty()) {
-        const msg = errors.array().map(error => error.msg).join('')
-        return res.status(422).json({ success: false, message: msg })
-    }
+         const msg = errors.array().map(error => error.msg).join('')
+         return res.status(422).json({ message: msg, success: false });
+     }
 
-    const { username, password } = req.body
+     const { username, password } = req.body 
 
-    //Check if the user exists
-    const existingUser = await models.User.findOne({
+     // check if user exists
+     const existingUser = await models.User.findOne({
         where: {
             username: { [Op.iLike]: username }
         }
-    })
+     })
 
-    //If the user does not exist
-    if (!existingUser) {
-        return res.status(401).json({ message: 'Invalid username or password.', success: false })
-    }
+     if(!existingUser) {
+        return res.status(401).json({ message: 'Username or password is incorrect', success: false });
+     }
 
-    //Check if the password is correct
-    const isPasswordValid = await bcrypt.compare(password, existingUser.password)
-    if (!isPasswordValid) {
-        return res.status(401).json({ message: 'Invalid username or password.', success: false })
-    }
-    //If the password is correct, create a token
-    const token = jwt.sign({ userId: existingUser.id }, 'SECRETKEY', {
+     // check the password 
+     const isPasswordValid = await bcrypt.compare(password, existingUser.password)
+     if(!isPasswordValid) {
+        return res.status(401).json({ message: 'Username or password is incorrect', success: false });
+     }
+
+     // generate JWT token
+     const token = jwt.sign({ userId: existingUser.id }, 'SECRETKEY', {
         expiresIn: '1h'
-    })
-    
-    //Return the token and user information
-    return res.status(200).json({ userId: existingUser.id, username: existingUser.username, token, success: true })
+     })
 
+     return res.status(200).json({ userId: existingUser.id, username: existingUser.username, token, success: true})
+     
     } catch (error) {
-        console.error(error)
-        return res.status(500).json({ message: 'Internal server error.', success: false })
+        return res.status(500).json({ message: 'Internal server error', success: false });
     }
 
 }
 
-
-
-exports.register = async (req, res) => { 
+exports.register = async (req, res) => {
 
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
