@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		30B6BBA92D8E66BE00CE6705 /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = 30B6BBA82D8E66BE00CE6705 /* JWTDecode */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		301CB4D92D8A19BF00E1E8E2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30B6BBA92D8E66BE00CE6705 /* JWTDecode in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +117,7 @@
 			);
 			name = SmartShop;
 			packageProductDependencies = (
+				30B6BBA82D8E66BE00CE6705 /* JWTDecode */,
 			);
 			productName = SmartShop;
 			productReference = 301CB4C82D8A19BD00E1E8E2 /* SmartShop.app */;
@@ -195,6 +201,9 @@
 			);
 			mainGroup = 301CB4BF2D8A19BD00E1E8E2;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				30B6BBA42D8E60E100CE6705 /* XCRemoteSwiftPackageReference "JWTDecode" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 301CB4C92D8A19BD00E1E8E2 /* Products */;
 			projectDirPath = "";
@@ -558,6 +567,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		30B6BBA42D8E60E100CE6705 /* XCRemoteSwiftPackageReference "JWTDecode" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/auth0/JWTDecode.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		30B6BBA82D8E66BE00CE6705 /* JWTDecode */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 30B6BBA42D8E60E100CE6705 /* XCRemoteSwiftPackageReference "JWTDecode" */;
+			productName = JWTDecode;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 301CB4C02D8A19BD00E1E8E2 /* Project object */;
 }

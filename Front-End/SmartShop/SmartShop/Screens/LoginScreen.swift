@@ -15,6 +15,8 @@ struct LoginScreen: View {
     @State private var password: String = ""
     @State private var message: String = ""
     
+    @AppStorage("userId") private var userId: Int?
+    
     private var isFormValid: Bool {
         !username.isEmptyOrWhitespace && !password.isEmptyOrWhitespace
     }
@@ -23,6 +25,21 @@ struct LoginScreen: View {
         
         do {
            
+            let response = try await authenticationController.login(username: username, password: password)
+            
+            guard let token = response.token,
+                  let userId = response.userId, response.success else {
+                message = response.message ?? "Request cannot be completed."
+                return
+            }
+            
+            print(token)
+            
+            // set the token in keychain
+            Keychain.set(token, forKey: "jwttoken")
+            
+            // set userId in user defaults
+            self.userId = userId
             
             
         } catch {
@@ -47,7 +64,12 @@ struct LoginScreen: View {
             
             Text(message)
             
-        }.navigationTitle("Register")
+        }
+        .navigationDestination(item: $userId, destination: { _ in
+            Text("Home Screen")
+        })
+        
+        .navigationTitle("Login")
     }
 }
 
