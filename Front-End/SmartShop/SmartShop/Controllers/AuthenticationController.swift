@@ -22,6 +22,17 @@ struct AuthenticationController {
         return response
     }
     
+    func login(username: String, password: String) async throws -> LoginResponse {
+        
+        let body = ["username": username, "password": password]
+        let bodyData = try JSONEncoder().encode(body)
+        
+        let resource = Resource(url: Constants.Urls.login, method: .post(bodyData), modelType: LoginResponse.self)
+        let response = try await httpClient.load(resource)
+        
+        return response
+    }
+    
 }
 
 extension AuthenticationController {
@@ -31,4 +42,5 @@ extension AuthenticationController {
     }
     
 }
+
 
