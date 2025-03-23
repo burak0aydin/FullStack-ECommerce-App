@@ -38,11 +38,16 @@ extension AppScreen {
             case .home:
                 Text("Home")
             case .myProducts:
-                Text("My Products")
+                NavigationStack {
+                    Text("My Products")
+                        .requiresAuthentication()
+                }
             case .cart:
                 Text("Cart")
+                    .requiresAuthentication()
             case .profile:
-                Text("Profile")
+               ProfileScreen()
+                    .requiresAuthentication()
         }
     }
     
