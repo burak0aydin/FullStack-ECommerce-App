@@ -7,11 +7,12 @@
 
 import Foundation
 
-enum ProductSaveError: Error {
+enum ProductError: Error {
     case missingUserId
     case invalidPrice
     case operationFailed(String)
     case missingImage
+    case uploadFailed(String)
 }
 
 enum UserError: Error {

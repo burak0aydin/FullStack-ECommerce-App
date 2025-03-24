@@ -23,6 +23,8 @@ struct AddProductScreen: View {
     @State private var isCameraSelected: Bool = false
     @State private var uiImage: UIImage?
     
+    @Environment(\.uploader) private var uploader
+    
     private var isFormValid: Bool {
         !name.isEmptyOrWhitespace && !description.isEmptyOrWhitespace
                && (price ?? 0) > 0
@@ -32,15 +34,25 @@ struct AddProductScreen: View {
         
         do {
             
+            guard let uiImage = uiImage, let imageData = uiImage.pngData() else {
+                throw ProductError.missingImage
+            }
+            
+            let uploadDataResponse = try await uploader.upload(data: imageData)
+            
+            guard let downloadURL = uploadDataResponse.downloadURL, uploadDataResponse.success else {
+                throw ProductError.uploadFailed(uploadDataResponse.message ?? "")
+            }
+            
             guard let userId = userId else {
-                throw ProductSaveError.missingUserId
+                throw ProductError.missingUserId
             }
             
             guard let price = price else {
-                throw ProductSaveError.invalidPrice
+                throw ProductError.invalidPrice
             }
             
-            let product = Product(name: name, description: description, price: price, photoUrl: URL(string: "http://localhost:8080/api/uploads/chair.png")!, userId: userId)
+            let product = Product(name: name, description: description, price: price, photoUrl: downloadURL, userId: userId)
             
             try await productStore.saveProduct(product)
             
@@ -62,7 +74,7 @@ struct AddProductScreen: View {
             HStack {
                 Button(action: {
                    
-                    if  UIImagePickerController.isSourceTypeAvailable(.camera) {
+                    if UIImagePickerController.isSourceTypeAvailable(.camera) {
                         isCameraSelected = true
                     } else {
                         print("Camera is not supported on this device.")
@@ -118,5 +130,7 @@ struct AddProductScreen: View {
 #Preview {
     NavigationStack {
         AddProductScreen()
-    }.environment(ProductStore(httpClient: .development))
+    }
+    .environment(ProductStore(httpClient: .development))
+    .environment(\.uploader, Uploader(httpClient: .development))
 }
