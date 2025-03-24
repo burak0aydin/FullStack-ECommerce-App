@@ -24,6 +24,11 @@ class ProductStore {
         products = try await httpClient.load(resource)
     }
     
+    func loadMyProducts(by userId: Int) async throws {
+        let resource = Resource(url: Constants.Urls.myProducts(userId), modelType: [Product].self)
+        myProducts = try await httpClient.load(resource)
+    }
+    
     func saveProduct(_ product: Product) async throws {
         let resource = Resource(url: Constants.Urls.createProduct, method: .post(product.encode()), modelType: CreateProductResponse.self)
         let response = try await httpClient.load(resource)
@@ -35,3 +40,4 @@ class ProductStore {
         
     }
 }
+

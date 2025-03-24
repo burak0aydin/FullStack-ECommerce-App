@@ -14,3 +14,6 @@ enum ProductSaveError: Error {
     case missingImage
 }
 
+enum UserError: Error {
+    case missingId
+}
