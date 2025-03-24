@@ -1,7 +1,35 @@
 
 const models = require('../models')
+const multer = require('multer')
+const path =  require('path')
 const { validationResult } = require('express-validator');
 
+// configure multer for file storage 
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, 'uploads/')
+    }, 
+    filename: function(req, file, cb) {
+        cb(null, file.fieldname + '-' + Date().now() + path.extname(file.originalname))
+    }
+})
+
+// setting up multer for image uploads 
+const uploadImage = multer({
+    storage: storage, 
+    limits: { fileSize: 5 * 1024 * 1024 }, 
+    fileFilter: function(req, file, cb) {
+        const fileTypes = /jpeg|jpg|png/;
+        const extname = fileTypes.test(path.extname(file.originalname).toLowerCase())
+        const mimeType = fileTypes.test(file.mimetype)
+
+        if(mimeType && extname) {
+            return cb(null, true)
+        } else {
+            cb(new Error('Only images are allowed!'))
+        }
+    }
+}).single('image')
 
 exports.getAllProducts = async (req, res) => {
     const products = await models.Product.findAll({})
