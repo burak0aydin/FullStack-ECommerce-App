@@ -39,7 +39,7 @@ extension AppScreen {
                 ProductListScreen()
             case .myProducts:
                 NavigationStack {
-                    Text("My Products")
+                    MyProductListScreen()
                         .requiresAuthentication()
                 }
             case .cart:
@@ -74,4 +74,5 @@ struct HomeScreen: View {
 
 #Preview {
     HomeScreen()
+        .environment(ProductStore(httpClient: .development))
 }
