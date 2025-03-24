@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
         cb(null, 'uploads/')
     }, 
     filename: function(req, file, cb) {
-        cb(null, file.fieldname + '-' + Date().now() + path.extname(file.originalname))
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
     }
 })
 
@@ -30,6 +30,25 @@ const uploadImage = multer({
         }
     }
 }).single('image')
+
+
+exports.upload = async (req, res) => {
+    uploadImage(req, res, (err) => {
+        if(err) {
+            return res.status(400).json({ message: err.message, success: false });
+        }
+        if(!req.file) {
+            return res.status(400).json({ message: 'No file uploaded', success: false });
+        }
+
+        const baseUrl = `${req.protocol}://${req.get('host')}`
+        const filePath = `/api/uploads/${req.file.filename}`
+        const downloadUrl = `${baseUrl}${filePath}`
+
+        res.json({ message: 'File uploaded successfully', downloadUrl: downloadUrl, success: true })
+
+    })
+}
 
 exports.getAllProducts = async (req, res) => {
     const products = await models.Product.findAll({})
@@ -82,5 +101,3 @@ exports.create = async (req, res) => {
         res.status(500).json({ message: "Internal server error", success: false });
     }
 }
-
-

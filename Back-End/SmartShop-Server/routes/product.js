@@ -17,4 +17,6 @@ router.post('/', productValidator, productController.create)
 // /api/products/user/6
 router.get('/user/:userId', productController.getMyProducts)
 
+router.post('/upload', productController.upload)
+
 module.exports = router 
