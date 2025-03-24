@@ -20,6 +20,12 @@ struct LoginResponse: Codable {
     let username: String?
 }
 
+struct UploadDataResponse: Codable {
+    let message: String?
+    let success: Bool
+    let downloadURL: URL?
+}
+
 struct Product: Codable, Identifiable {
     
     var id: Int?
