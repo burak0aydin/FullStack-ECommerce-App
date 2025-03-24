@@ -36,18 +36,22 @@ extension AppScreen {
     var destination: some View {
         switch self {
             case .home:
-                Text("Home")
+                ProductListScreen()
             case .myProducts:
                 NavigationStack {
                     Text("My Products")
                         .requiresAuthentication()
                 }
             case .cart:
-                Text("Cart")
-                    .requiresAuthentication()
+                NavigationStack {
+                    Text("Cart")
+                        .requiresAuthentication()
+                }
             case .profile:
-               ProfileScreen()
-                    .requiresAuthentication()
+                NavigationStack {
+                    ProfileScreen()
+                        .requiresAuthentication()
+                }
         }
     }
     

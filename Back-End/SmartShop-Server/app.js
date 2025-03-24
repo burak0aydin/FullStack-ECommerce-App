@@ -6,6 +6,8 @@ const productRoutes = require('./routes/product')
 
 const app = express()
 
+app.use('/api/uploads',express.static('uploads'))
+
 // CORS 
 app.use(cors())
 // JSON parser 

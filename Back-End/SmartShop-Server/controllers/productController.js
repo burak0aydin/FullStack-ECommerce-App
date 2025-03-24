@@ -1,5 +1,8 @@
 
+const models = require('../models')
+
 exports.getAllProducts = async (req, res) => {
-    res.send('GET ALL PRODUCTS')
+    const products = await models.Product.findAll({})
+    res.json(products)
 }
 
