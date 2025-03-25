@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router() 
 const productController = require('../controllers/productController') 
 const { body, param } = require('express-validator');
+const authenticate = require('../middlewares/authMiddleware');
 
 const productValidator = [
     body('name', 'name cannot be empty.').not().isEmpty(), 
@@ -35,7 +36,7 @@ const updateProductValidator = [
 router.get('/', productController.getAllProducts)
 router.post('/', productValidator, productController.create)
 // /api/products/user/6
-router.get('/user/:userId', productController.getMyProducts)
+router.get('/user/:userId', authenticate, productController.getMyProducts)
 
 router.post('/upload', productController.upload)
 
