@@ -20,28 +20,32 @@ struct AddProductScreen: View {
     @AppStorage("userId") private var userId: Int?
     
     @State private var selectedPhotoItem: PhotosPickerItem? = nil
-    @State private var isCameraSelected: Bool = false
     @State private var uiImage: UIImage?
     
     @Environment(\.uploader) private var uploader
     
+    @State private var showErrorAlert = false
+    @State private var errorMessage = ""
+    @State private var isLoading = false
+    
     private var isFormValid: Bool {
         !name.isEmptyOrWhitespace && !description.isEmptyOrWhitespace
-               && (price ?? 0) > 0
+               && (price ?? 0) > 0 && uiImage != nil
     }
     
     private func saveProduct() async {
+        errorMessage = ""
+        isLoading = true
         
         do {
-            
-            guard let uiImage = uiImage, let imageData = uiImage.pngData() else {
+            guard let uiImage = uiImage, let imageData = uiImage.jpegData(compressionQuality: 0.5) else {
                 throw ProductError.missingImage
             }
             
             let uploadDataResponse = try await uploader.upload(data: imageData)
             
             guard let downloadURL = uploadDataResponse.downloadURL, uploadDataResponse.success else {
-                throw ProductError.uploadFailed(uploadDataResponse.message ?? "")
+                throw ProductError.uploadFailed(uploadDataResponse.message ?? "Image upload failed")
             }
             
             guard let userId = userId else {
@@ -59,9 +63,11 @@ struct AddProductScreen: View {
             dismiss()
             
         } catch {
-            print(error.localizedDescription)
+            errorMessage = error.localizedDescription
+            showErrorAlert = true
         }
         
+        isLoading = false
     }
     
     var body: some View {
@@ -71,26 +77,12 @@ struct AddProductScreen: View {
                 .frame(height: 100)
             TextField("Enter price", value: $price, format: .number)
             
-            HStack {
-                Button(action: {
-                   
-                    if UIImagePickerController.isSourceTypeAvailable(.camera) {
-                        isCameraSelected = true
-                    } else {
-                        print("Camera is not supported on this device.")
-                    }
-                    
-                }, label: {
-                    Image(systemName: "camera.fill")
-                })
-                
-                Spacer().frame(width: 20)
-                
-                PhotosPicker(selection: $selectedPhotoItem, matching: .images, photoLibrary: .shared()) {
+            PhotosPicker(selection: $selectedPhotoItem, matching: .images, photoLibrary: .shared()) {
+                HStack {
                     Image(systemName: "photo.on.rectangle")
+                    Text("Select Photo")
                 }
-                
-            }.font(.title)
+            }
             
             if let uiImage {
                 Image(uiImage: uiImage)
@@ -99,29 +91,35 @@ struct AddProductScreen: View {
             }
             
         }
-        .onChange(of: selectedPhotoItem, {
-            selectedPhotoItem?.loadTransferable(type: Data.self, completionHandler: { result in
-                switch result {
-                    case .success(let data):
-                        if let data {
-                            uiImage = UIImage(data: data)
-                        }
-                    case .failure(let error):
-                        print(error.localizedDescription)
+        .task(id: selectedPhotoItem, {
+            if let selectedPhotoItem {
+                do {
+                    if let data = try await selectedPhotoItem.loadTransferable(type: Data.self) {
+                        uiImage = UIImage(data: data)
+                    }
+                } catch {
+                    print(error.localizedDescription)
                 }
-            })
+            }
         })
-        .sheet(isPresented: $isCameraSelected, content: {
-            ImagePicker(image: $uiImage, sourceType: .camera)
-        })
-        
+        .alert(isPresented: $showErrorAlert) {
+            Alert(
+                title: Text("Error"),
+                message: Text(errorMessage),
+                dismissButton: .default(Text("OK"))
+            )
+        }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button("Save") {
-                    Task {
-                        await saveProduct()
-                    }
-                }.disabled(!isFormValid)
+                if isLoading {
+                    ProgressView()
+                } else {
+                    Button("Save") {
+                        Task {
+                            await saveProduct()
+                        }
+                    }.disabled(!isFormValid)
+                }
             }
         }
     }

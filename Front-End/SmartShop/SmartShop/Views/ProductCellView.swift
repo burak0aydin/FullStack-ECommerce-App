@@ -33,3 +33,4 @@ struct ProductCellView: View {
 #Preview {
     ProductCellView(product: Product.preview)
 }
+
