@@ -1,29 +1,29 @@
 
 const models = require('../models')
 const multer = require('multer')
-const path =  require('path')
+const path = require('path')
 const { validationResult } = require('express-validator');
 
 // configure multer for file storage 
 const storage = multer.diskStorage({
-    destination: function(req, file, cb) {
+    destination: function (req, file, cb) {
         cb(null, 'uploads/')
-    }, 
-    filename: function(req, file, cb) {
+    },
+    filename: function (req, file, cb) {
         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
     }
 })
 
 // setting up multer for image uploads 
 const uploadImage = multer({
-    storage: storage, 
-    limits: { fileSize: 5 * 1024 * 1024 }, 
-    fileFilter: function(req, file, cb) {
+    storage: storage,
+    limits: { fileSize: 5 * 1024 * 1024 },
+    fileFilter: function (req, file, cb) {
         const fileTypes = /jpeg|jpg|png/;
         const extname = fileTypes.test(path.extname(file.originalname).toLowerCase())
         const mimeType = fileTypes.test(file.mimetype)
 
-        if(mimeType && extname) {
+        if (mimeType && extname) {
             return cb(null, true)
         } else {
             cb(new Error('Only images are allowed!'))
@@ -34,10 +34,10 @@ const uploadImage = multer({
 
 exports.upload = async (req, res) => {
     uploadImage(req, res, (err) => {
-        if(err) {
+        if (err) {
             return res.status(400).json({ message: err.message, success: false });
         }
-        if(!req.file) {
+        if (!req.file) {
             return res.status(400).json({ message: 'No file uploaded', success: false });
         }
 
@@ -62,7 +62,7 @@ exports.getMyProducts = async (req, res) => {
         const userId = req.params.userId
         const products = await models.Product.findAll({
             where: {
-                user_id: userId 
+                user_id: userId
             }
         })
 
@@ -104,4 +104,40 @@ exports.create = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: "Internal server error", success: false });
     }
+}
+
+exports.deleteProduct = async (req, res) => {
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        const msg = errors.array().map(error => error.msg).join('')
+        return res.status(422).json({ message: msg, success: false });
+    }
+
+    const productId = req.params.productId
+
+    try {
+        const product = await models.Product.findByPk(productId)
+        if(!product) {
+            return res.status(404).json({ message: 'Product not found', success: false });
+        }
+
+        // delete the product 
+        const result = models.Product.destroy({
+            where: {
+                id: productId
+            }
+        })
+
+        if(result == 0) {
+            return res.status(404).json({ message: 'Product not found', success: false });
+        }
+
+        return res.status(200).json({ message: `Product with ID ${productId} deleted successfully`, success: true });
+
+    } catch (err) {
+        return res.status(500).json({ message: `Error deleting product ${error.message} `, success: false });
+    }
+
 }
