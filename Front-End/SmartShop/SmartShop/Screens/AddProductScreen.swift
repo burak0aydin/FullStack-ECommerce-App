@@ -10,6 +10,8 @@ import PhotosUI
 
 struct AddProductScreen: View {
     
+    let product: Product?
+    
     @State private var name: String = ""
     @State private var description: String = ""
     @State private var price: Double?
@@ -22,18 +24,22 @@ struct AddProductScreen: View {
     @State private var selectedPhotoItem: PhotosPickerItem? = nil
     @State private var uiImage: UIImage?
     
-    @Environment(\.uploader) private var uploader
+    @Environment(\.uploaderDownloader) private var uploaderDownloader
     
     @State private var showErrorAlert = false
     @State private var errorMessage = ""
     @State private var isLoading = false
+    
+    init(product: Product? = nil) {
+        self.product = product
+    }
     
     private var isFormValid: Bool {
         !name.isEmptyOrWhitespace && !description.isEmptyOrWhitespace
                && (price ?? 0) > 0 && uiImage != nil
     }
     
-    private func saveProduct() async {
+    private func saveOrUpdateProduct() async {
         errorMessage = ""
         isLoading = true
         
@@ -42,7 +48,7 @@ struct AddProductScreen: View {
                 throw ProductError.missingImage
             }
             
-            let uploadDataResponse = try await uploader.upload(data: imageData)
+            let uploadDataResponse = try await uploaderDownloader.upload(data: imageData)
             
             guard let downloadURL = uploadDataResponse.downloadURL, uploadDataResponse.success else {
                 throw ProductError.uploadFailed(uploadDataResponse.message ?? "Image upload failed")
@@ -56,9 +62,13 @@ struct AddProductScreen: View {
                 throw ProductError.invalidPrice
             }
             
-            let product = Product(name: name, description: description, price: price, photoUrl: downloadURL, userId: userId)
+            let product = Product(id: self.product?.id, name: name, description: description, price: price, photoUrl: downloadURL, userId: userId)
             
-            try await productStore.saveProduct(product)
+            if self.product != nil {
+                try await productStore.updateProduct(product)
+            } else {
+                try await productStore.saveProduct(product)
+            }
             
             dismiss()
             
@@ -69,6 +79,11 @@ struct AddProductScreen: View {
         
         isLoading = false
     }
+    
+    private var actionTitle: String {
+        product != nil ? "Update Product" : "Add Product"
+    }
+    
     
     var body: some View {
         Form {
@@ -91,6 +106,26 @@ struct AddProductScreen: View {
             }
             
         }
+        .task {
+            do{
+                guard let product = product else { return }
+                
+                name = product.name
+                description = product.description
+                price = product.price
+                
+                if let photoUrl = product.photoUrl {
+                    guard let data = try await uploaderDownloader.download(from: photoUrl) else {
+                        return
+                    }
+                    uiImage = UIImage(data: data)
+                }
+            }
+            catch {
+                print(error.localizedDescription)
+            }
+        }
+        
         .task(id: selectedPhotoItem, {
             if let selectedPhotoItem {
                 do {
@@ -114,9 +149,9 @@ struct AddProductScreen: View {
                 if isLoading {
                     ProgressView()
                 } else {
-                    Button("Save") {
+                    Button(actionTitle) {
                         Task {
-                            await saveProduct()
+                            await saveOrUpdateProduct()
                         }
                     }.disabled(!isFormValid)
                 }
@@ -130,5 +165,13 @@ struct AddProductScreen: View {
         AddProductScreen()
     }
     .environment(ProductStore(httpClient: .development))
-    .environment(\.uploader, Uploader(httpClient: .development))
+    .environment(\.uploaderDownloader, UploaderDownloader(httpClient: .development))
+}
+
+#Preview ("Updating Product") {
+    NavigationStack {
+        AddProductScreen(product: Product.preview)
+    }
+    .environment(ProductStore(httpClient: .development))
+    .environment(\.uploaderDownloader, UploaderDownloader(httpClient: .development))
 }
