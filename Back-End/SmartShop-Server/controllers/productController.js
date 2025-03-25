@@ -3,6 +3,7 @@ const models = require('../models')
 const multer = require('multer')
 const path = require('path')
 const { validationResult } = require('express-validator');
+const { getFileNameFromUrl, deleteFile } = require('../utils/fileUtils');
 
 // configure multer for file storage 
 const storage = multer.diskStorage({
@@ -123,6 +124,8 @@ exports.deleteProduct = async (req, res) => {
             return res.status(404).json({ message: 'Product not found', success: false });
         }
 
+        const fileName = getFileNameFromUrl(product.photo_url)
+
         // delete the product 
         const result = models.Product.destroy({
             where: {
@@ -133,6 +136,9 @@ exports.deleteProduct = async (req, res) => {
         if(result == 0) {
             return res.status(404).json({ message: 'Product not found', success: false });
         }
+
+        // delete the file 
+        await deleteFile(fileName)
 
         return res.status(200).json({ message: `Product with ID ${productId} deleted successfully`, success: true });
 
