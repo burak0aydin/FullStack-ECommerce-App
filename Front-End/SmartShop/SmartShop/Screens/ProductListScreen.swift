@@ -13,8 +13,18 @@ struct ProductListScreen: View {
     
     var body: some View {
         List(productStore.products) { product in
-            ProductCellView(product: product)
-        }.task {
+            
+            NavigationLink {
+                ProductDetailScreen(product: product)
+            } label: {
+                ProductCellView(product: product)
+                    //.listRowSeparator(.hidden)
+            }
+           
+        }
+        .listStyle(.plain)
+        .navigationTitle("New Arrivals")
+        .task {
             do {
                 try await productStore.loadAllProducts()
             } catch {
@@ -27,5 +37,8 @@ struct ProductListScreen: View {
 #Preview {
     NavigationStack {
         ProductListScreen()
-    }.environment(ProductStore(httpClient: .development))
+    }
+    .environment(ProductStore(httpClient: .development))
+    .environment(CartStore(httpClient: .development))
+    
 }
