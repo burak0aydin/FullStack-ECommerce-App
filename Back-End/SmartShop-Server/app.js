@@ -3,6 +3,7 @@ const cors = require('cors')
 
 const authRoutes = require('./routes/auth')
 const productRoutes = require('./routes/product')
+const cartRoutes = require('./routes/cart') 
 
 const app = express()
 
@@ -15,7 +16,12 @@ app.use(express.json())
 
 // register our routers 
 app.use('/api/auth', authRoutes)
+
+// product routes 
 app.use('/api/products', productRoutes)
+
+// cart routes 
+app.use('/api/cart', cartRoutes)
 
 // start the server 
 app.listen(8080, () => {
