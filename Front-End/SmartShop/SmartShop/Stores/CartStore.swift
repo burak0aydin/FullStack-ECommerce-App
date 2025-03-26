@@ -43,6 +43,10 @@ class CartStore {
         }
     }
     
+    func updateItemQuantity(productId: Int, quantity: Int) async throws {
+        try await addItemToCart(productId: productId, quantity: quantity)
+    }
+    
     func addItemToCart(productId: Int, quantity: Int) async throws {
         
         let body = ["productId": productId, "quantity": quantity]

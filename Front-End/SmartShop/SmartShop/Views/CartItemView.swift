@@ -27,6 +27,8 @@ struct CartItemView: View {
                     .font(.title3)
                 Text(cartItem.product.price, format: .currency(code: "USD"))
                 
+                CartItemQuantityView(cartItem: cartItem)
+                
             }.frame(maxWidth: .infinity, alignment: .leading)
         }
     }
@@ -34,4 +36,5 @@ struct CartItemView: View {
 
 #Preview {
     CartItemView(cartItem: Cart.preview.cartItems[0])
+        .environment(CartStore(httpClient: .development))
 }

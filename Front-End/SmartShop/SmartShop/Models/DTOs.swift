@@ -121,7 +121,7 @@ extension Cart {
                 CartItem(
                     id: 1,
                     product: Product(
-                        id: 201,
+                        id: 30,
                         name: "Coffee",
                         description: "A rich, aromatic blend of premium coffee beans.",
                         price: 5.99,
@@ -145,7 +145,7 @@ extension Cart {
                 CartItem(
                     id: 3,
                     product: Product(
-                        id: 203,
+                        id: 31,
                         name: "Hot Chocolate",
                         description: "Smooth and creamy hot chocolate.",
                         price: 4.99,
