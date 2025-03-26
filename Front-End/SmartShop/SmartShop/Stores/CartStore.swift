@@ -19,4 +19,20 @@ class CartStore {
         self.httpClient = httpClient
     }
     
+    func addItemToCart(productId: Int, quantity: Int) async throws {
+        
+        let body = ["productId": productId, "quantity": quantity]
+        let bodyData = try JSONEncoder().encode(body)
+        
+        let resource = Resource(url: Constants.Urls.addCartItem, method: .post(bodyData), modelType: CartItemResponse.self)
+        let response = try await httpClient.load(resource)
+        
+        if response.success {
+            // do something
+        } else {
+            // throw an error
+        }
+        
+    }
+    
 }

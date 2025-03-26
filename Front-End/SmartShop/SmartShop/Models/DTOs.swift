@@ -96,3 +96,8 @@ struct CartItem: Codable, Identifiable {
     let product: Product
     var quantity: Int = 1
 }
+
+struct CartItemResponse: Codable {
+    let message: String?
+    let success: Bool
+}
