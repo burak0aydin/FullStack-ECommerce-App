@@ -71,6 +71,16 @@ struct HTTPClient {
     func load<T: Codable>(_ resource: Resource<T>) async throws -> T {
         
         var request = URLRequest(url: resource.url)
+        var headers: [String: String] = resource.headers ?? [: ]
+        
+        if let token = Keychain<String>.get("jwttoken") {
+            headers["Authorization"] = "Bearer \(token)"
+        }
+        
+        // add headers to the request
+        for (key, value) in headers {
+            request.setValue(value, forHTTPHeaderField: key)
+        }
         
         // Set HTTP method and body if needed
         switch resource.method {
@@ -91,11 +101,12 @@ struct HTTPClient {
         }
         
         // Set custom headers
+        /*
         if let headers = resource.headers {
             for (key, value) in headers {
                 request.setValue(value, forHTTPHeaderField: key)
             }
-        }
+        } */
         
         let (data, response) = try await session.data(for: request)
         
