@@ -32,7 +32,7 @@ exports.loadCart = async (req, res) => {
 
         const cart = await models.Cart.findOne({
             where: {
-                user_id: 6, // MAKE SURE TO CHANGE THAT to request.userId
+                user_id: 7, // MAKE SURE TO CHANGE THAT to request.userId
                 is_active: true
             }, 
             attributes: ['id', 'user_id', 'is_active'], 

@@ -55,7 +55,11 @@ struct CartItemQuantityView: View {
                             print(error)
                         }
                     case .delete:
-                        print("deleteCartItem")
+                        do {
+                            try await cartStore.deleteCartItem(cartItemId: cartItem.id!)
+                        } catch {
+                            print(error.localizedDescription)
+                        }
                 }
             }
             

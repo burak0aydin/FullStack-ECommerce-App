@@ -18,6 +18,10 @@ struct Constants {
         static let addCartItem = URL(string: "http://localhost:8080/api/cart/items")!
         static let loadCart = URL(string: "http://localhost:8080/api/cart")!
         
+        static func deleteCartItem(_ cartItemId: Int) -> URL {
+            URL(string: "http://localhost:8080/api/cart/item/\(cartItemId)")!
+        }
+        
         static func myProducts(_ userId: Int) -> URL {
             URL(string: "http://localhost:8080/api/products/user/\(userId)")!
         }
