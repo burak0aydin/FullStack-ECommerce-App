@@ -27,10 +27,22 @@ class CartStore {
         let resource = Resource(url: Constants.Urls.addCartItem, method: .post(bodyData), modelType: CartItemResponse.self)
         let response = try await httpClient.load(resource)
         
-        if response.success {
-            // do something
+        if let cartItem = response.cartItem, response.success {
+            // initialize the cart if it is nil
+            if cart == nil {
+                guard let userId = UserDefaults.standard.userId else { throw UserError.missingId }
+                cart = Cart(userId: userId)
+            }
+            
+            // if item already in cart then update it
+            if let index = cart?.cartItems.firstIndex(where: { $0.id == cartItem.id }) {
+                cart?.cartItems[index] = cartItem
+            } else {
+                // add as new cart item
+                cart?.cartItems.append(cartItem)
+            }
         } else {
-            // throw an error
+            throw CartError.operationFailed(response.message ?? "")
         }
         
     }
