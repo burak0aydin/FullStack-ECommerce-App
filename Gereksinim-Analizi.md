@@ -11,8 +11,8 @@
 11. Kredi Kartı İle Ödeme - (Burak Aydın)
 12. Profili Görüntüle - (Burak Aydın)
 13. Profili Güncelle - (Burak Aydın)
-14. Satıcı Ürün Paneli Görüntüle
-15. Satıcı Ürün Sayfasını Görüntüle - (Burak Aydın)
+14. Satıcının Ürün Paneli Görüntüle
+15. Satıcının Ürün Detayları Sayfasını Görüntüle - (Burak Aydın)
 16. Satıcı Ürün Ekleme - (Burak Aydın)
 17. Satıcı Ürün Silme - (Burak Aydın)
     
