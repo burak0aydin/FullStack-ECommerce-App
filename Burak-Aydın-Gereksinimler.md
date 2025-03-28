@@ -1,4 +1,4 @@
-# E-Ticaret Mobil Uygulaması - Fonksiyonel Açıklamalar
+# FullStack ECommerce App - WorthShop
 
 Bu proje, SwiftUI ile geliştirilen mobil arayüz ve Node.js/Express.js, PostgreSQL & JWT tabanlı backend entegrasyonu ile modern bir e-ticaret deneyimi sunar. Aşağıda, uygulamanın temel fonksiyonlarının kısa açıklamaları yer almaktadır.
 
