@@ -16,6 +16,18 @@ struct SmartShopApp: App {
     
     @AppStorage("userId") private var userId: String?
     
+    private func loadUserInfoAndCart() async {
+        
+        await cartStore.loadCart()
+        
+        do {
+            
+            try await userStore.loadUserInfo()
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
     var body: some Scene {
         WindowGroup {
             HomeScreen()
@@ -25,12 +37,8 @@ struct SmartShopApp: App {
                 .environment(userStore)
                 .environment(\.uploaderDownloader, UploaderDownloader(httpClient: HTTPClient()))
                 .task(id: userId) {
-                    do {
-                        if userId != nil {
-                            try await cartStore.loadCart()
-                        }
-                    } catch {
-                        print(error.localizedDescription)
+                    if userId != nil {
+                        await loadUserInfoAndCart()
                     }
                 }
         }

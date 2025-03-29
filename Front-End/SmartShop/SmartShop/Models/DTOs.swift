@@ -164,7 +164,7 @@ extension Cart {
 }
 
 
-struct UserInfo: Codable {
+struct UserInfo: Codable, Equatable {
     
     let firstName: String?
     let lastName: String?

@@ -15,6 +15,8 @@ class CartStore {
     let httpClient: HTTPClient
     var cart: Cart?
     
+    var lastError: Error?
+    
     init(httpClient: HTTPClient) {
         self.httpClient = httpClient
     }
@@ -50,15 +52,17 @@ class CartStore {
         }
     }
     
-    func loadCart() async throws {
+    func loadCart() async {
         
-        let resource = Resource(url: Constants.Urls.loadCart, modelType: CartResponse.self)
-        let response = try await httpClient.load(resource)
-        
-        if let cart = response.cart, response.success {
-            self.cart = cart
-        } else {
-            throw CartError.operationFailed(response.message ?? "")
+        do {
+            let resource = Resource(url: Constants.Urls.loadCart, modelType: CartResponse.self)
+            let response = try await httpClient.load(resource)
+            
+            if let cart = response.cart, response.success {
+                self.cart = cart
+            }
+        } catch {
+            lastError = error
         }
     }
     
