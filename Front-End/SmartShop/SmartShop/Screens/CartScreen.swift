@@ -10,6 +10,7 @@ import SwiftUI
 struct CartScreen: View {
     
     @Environment(CartStore.self) private var cartStore
+    @AppStorage("userId") private var userId: Int?
     
     var body: some View {
         List {
@@ -19,17 +20,17 @@ struct CartScreen: View {
                     Spacer()
                     Text("Total: ")
                         .font(.title)
-                    Text(cartStore.total, format: .currency(code: "USD"))
+                    Text(cart.total, format: .currency(code: "USD"))
                         .font(.title)
                         .bold()
                     Spacer()
                 }
                 
                 Button(action: {
-                    
+                   
                 }) {
                     
-                    Text("Proceed to checkout ^[(\(cartStore.itemsCount) Item](inflect: true))")
+                    Text("Proceed to checkout ^[(\(cart.itemsCount) Item](inflect: true))")
                         .bold()
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -43,9 +44,8 @@ struct CartScreen: View {
             } else {
                 ContentUnavailableView("No items in the cart.", systemImage: "cart")
             }
-        }.task {
-            try? await cartStore.loadCart()
         }
+       
     }
 }
 
