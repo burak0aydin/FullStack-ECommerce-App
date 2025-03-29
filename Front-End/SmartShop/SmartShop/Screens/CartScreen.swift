@@ -12,6 +12,8 @@ struct CartScreen: View {
     @Environment(CartStore.self) private var cartStore
     @AppStorage("userId") private var userId: Int?
     
+    @State private var proceedToCheckout = false
+    
     var body: some View {
         List {
             if let cart = cartStore.cart {
@@ -27,7 +29,7 @@ struct CartScreen: View {
                 }
                 
                 Button(action: {
-                   
+                    proceedToCheckout = true
                 }) {
                     
                     Text("Proceed to checkout ^[(\(cart.itemsCount) Item](inflect: true))")
@@ -43,6 +45,10 @@ struct CartScreen: View {
                 
             } else {
                 ContentUnavailableView("No items in the cart.", systemImage: "cart")
+            }
+        }.navigationDestination(isPresented: $proceedToCheckout) {
+            if let cart = cartStore.cart {
+                CheckoutScreen(cart: cart)
             }
         }
        
