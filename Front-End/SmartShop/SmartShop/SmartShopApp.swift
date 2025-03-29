@@ -12,6 +12,7 @@ struct SmartShopApp: App {
     
     @State private var productStore = ProductStore(httpClient: HTTPClient())
     @State private var cartStore = CartStore(httpClient: HTTPClient())
+    @State private var userStore = UserStore(httpClient: HTTPClient())
     
     @AppStorage("userId") private var userId: String?
     
@@ -21,6 +22,7 @@ struct SmartShopApp: App {
                 .environment(\.authenticationController, .development)
                 .environment(productStore)
                 .environment(cartStore)
+                .environment(userStore)
                 .environment(\.uploaderDownloader, UploaderDownloader(httpClient: HTTPClient()))
                 .task(id: userId) {
                     do {

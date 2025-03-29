@@ -4,6 +4,7 @@ exports.updateUserInfo = async (req, res) => {
 
     try {
         
+        console.log(req.body)
         const userId = req.userId 
         const { first_name, last_name, street, city, state, zip_code, country } = req.body 
 

@@ -10,7 +10,9 @@ import SwiftUI
 struct ProfileScreen: View {
     
     @AppStorage("userId") private var userId: String?
+    
     @Environment(CartStore.self) private var cartStore
+    @Environment(UserStore.self) private var userStore
     
     @State private var firstName: String = ""
     @State private var lastName: String = ""
@@ -55,9 +57,13 @@ struct ProfileScreen: View {
     
     private func updateUserInfo() async {
         
-        // create UserInfo
-        
-        // userStore.updateUserInfo
+        do {
+            
+            let userInfo = UserInfo(firstName: firstName, lastName: lastName, street: street, city: city, state: state, zipCode: zipCode, country: country)
+            try await userStore.updateUserInfo(userInfo: userInfo)
+        } catch {
+            print(error)
+        }
     }
     
     var body: some View {
@@ -106,5 +112,6 @@ struct ProfileScreen: View {
     NavigationStack {
         ProfileScreen()
             .environment(CartStore(httpClient: .development))
+            .environment(UserStore(httpClient: .development))
     }
 }
