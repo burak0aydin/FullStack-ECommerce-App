@@ -5,6 +5,8 @@ const authRoutes = require('./routes/auth')
 const productRoutes = require('./routes/product')
 const cartRoutes = require('./routes/cart') 
 const userRoutes = require('./routes/user')
+const orderRoutes = require('./routes/order')
+
 const authenticate = require('./middlewares/authMiddleware')
 
 const app = express()
@@ -27,6 +29,9 @@ app.use('/api/cart', authenticate, cartRoutes)
 
 // user routes 
 app.use('/api/user', authenticate, userRoutes)
+
+// order routes 
+app.use('/api/orders', orderRoutes)
 
 // start the server 
 app.listen(8080, () => {

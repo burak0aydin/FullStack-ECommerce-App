@@ -1,6 +1,23 @@
 
 const models = require('../models')
 
+exports.removeCartItems = async (cartId, transaction) => {
+    return await models.CartItem.destroy({
+        where: { cart_id: cartId }, 
+        transaction
+    })
+}
+
+exports.updateCartStatus = async (cartId, isActive, transaction) => {
+   return await models.Cart.update(
+    { is_active: isActive }, 
+    {
+        where: { id: cartId, is_active: !isActive }, 
+        transaction
+    }
+   )
+}
+
 exports.removeCartItem = async (req, res) => {
 
     try {
@@ -64,7 +81,7 @@ exports.addCartItem = async (req, res) => {
 
     const { productId, quantity } = req.body 
 
-    req.userId = 7 // MAKE SURE TO CHANGE THAT to request.userId
+    req.userId = 6 // MAKE SURE TO CHANGE THAT to request.userId
 
     try {
 
