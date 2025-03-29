@@ -64,7 +64,7 @@ exports.addCartItem = async (req, res) => {
 
     const { productId, quantity } = req.body 
 
-    req.userId = 6 // MAKE SURE TO CHANGE THAT to request.userId
+    req.userId = 7 // MAKE SURE TO CHANGE THAT to request.userId
 
     try {
 
