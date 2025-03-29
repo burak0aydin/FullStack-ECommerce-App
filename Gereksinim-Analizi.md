@@ -3,13 +3,19 @@
 3. Ürünleri Göster - (Burak Aydın)
 4. Ürünlerin Detaylarını Görüntüle - (Burak Aydın)
 5. Sepete Ekle - (Burak Aydın)
-6. Sepeti Görüntüle - (Burak Aydın)
-7. PayPal/Stripe Benzeri Platformla Ödeme - (Burak Aydın)
-8. Kredi Kartı İle Ödeme - (Burak Aydın)
-9. Profili Görüntüle - (Burak Aydın)
-10. Admin Ürün Ekleme - (Burak Aydın)
-11. Admin Ürün Düzenleme - (Burak Aydın)
-12. Admin Ürün Silme - (Burak Aydın)
+6. Sepetten Kaldır - (Burak Aydın)
+7. Sepeti Görüntüle - (Burak Aydın)
+8. Checkout sayfasını Görüntüle - (Burak Aydın)
+9. Ödeme Ekranı Görüntüle - (Burak Aydın)
+10. Stripe İle Ödeme - (Burak Aydın)
+11. Kredi Kartı İle Ödeme - (Burak Aydın)
+12. Profili Görüntüle - (Burak Aydın)
+13. Profili Güncelle - (Burak Aydın)
+14. Satıcının Ürün Paneli Görüntüle - (Burak Aydın)
+15. Satıcının Ürün Detayları Sayfasını Görüntüle - (Burak Aydın)
+16. Satıcı Ürün Ekleme - (Burak Aydın)
+17. Satıcı Ürün Silme - (Burak Aydın)
+    
 
 
 # Gereksinim Dağılımları
