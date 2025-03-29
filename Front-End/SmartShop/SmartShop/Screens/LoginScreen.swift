@@ -22,9 +22,7 @@ struct LoginScreen: View {
     }
     
     private func login() async {
-        
         do {
-           
             let response = try await authenticationController.login(username: username, password: password)
             
             guard let token = response.token,
@@ -41,31 +39,60 @@ struct LoginScreen: View {
             // set userId in user defaults
             self.userId = userId
             
-            
+            message = "Login successful!"
         } catch {
             message = error.localizedDescription
         }
         
         username = ""
         password = ""
-        
     }
     
     var body: some View {
-        Form {
-            TextField("User name", text: $username)
-                .textInputAutocapitalization(.never)
-            SecureField("Password", text: $password)
-            Button("Login") {
+        VStack(spacing: 20) {
+            Text("Welcome Back!")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .padding(.top, 40)
+            
+            VStack(spacing: 16) {
+                TextField("User name", text: $username)
+                    .textInputAutocapitalization(.never)
+                    .padding()
+                    .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 1))
+                
+                SecureField("Password", text: $password)
+                    .padding()
+                    .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 1))
+            }
+            .padding(.horizontal)
+            
+            Button(action: {
                 Task {
                     await login()
                 }
-            }.disabled(!isFormValid)
+            }) {
+                Text("Login")
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(isFormValid ? Color.blue : Color.gray)
+                    .cornerRadius(10)
+            }
+            .disabled(!isFormValid)
+            .padding(.horizontal)
             
-            Text(message)
+            if !message.isEmpty {
+                Text(message)
+                    .foregroundColor(message.contains("successful") ? .green : .red)
+                    .font(.callout)
+                    .padding(.top)
+            }
             
+            Spacer()
         }
-        
+        .padding()
+        .background(Color(.systemGroupedBackground).ignoresSafeArea())
         .navigationTitle("Login")
     }
 }

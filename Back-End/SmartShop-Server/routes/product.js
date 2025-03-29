@@ -46,4 +46,4 @@ router.delete('/:productId', authenticate, deleteProductValidator, productContro
 // PUT 
 router.put('/:productId', authenticate, updateProductValidator, productController.updateProduct)
 
-module.exports = router 
+module.exports = router  

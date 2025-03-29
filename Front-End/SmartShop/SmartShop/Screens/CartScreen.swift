@@ -16,11 +16,13 @@ struct CartScreen: View {
             if let cart = cartStore.cart {
                 
                 HStack {
+                    Spacer()
                     Text("Total: ")
                         .font(.title)
                     Text(cartStore.total, format: .currency(code: "USD"))
                         .font(.title)
                         .bold()
+                    Spacer()
                 }
                 
                 Button(action: {

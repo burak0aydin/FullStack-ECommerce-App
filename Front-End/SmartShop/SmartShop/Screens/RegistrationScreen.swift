@@ -21,39 +21,68 @@ struct RegistrationScreen: View {
     }
     
     private func register() async {
-        
         do {
             let response = try await authenticationController.register(username: username, password: password)
             
             if response.success {
                 dismiss()
             } else {
-                message = response.message ?? ""
+                message = response.message ?? "Registration failed."
             }
-            
         } catch {
             message = error.localizedDescription
         }
         
         username = ""
         password = ""
-        
     }
     
     var body: some View {
-        Form {
-            TextField("User name", text: $username)
-                .textInputAutocapitalization(.never)
-            SecureField("Password", text: $password)
-            Button("Register") {
+        VStack(spacing: 20) {
+            Text("Create Your Account")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .padding(.top, 40)
+            
+            VStack(spacing: 16) {
+                TextField("User name", text: $username)
+                    .textInputAutocapitalization(.never)
+                    .padding()
+                    .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 1))
+                
+                SecureField("Password", text: $password)
+                    .padding()
+                    .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 1))
+            }
+            .padding(.horizontal)
+            
+            Button(action: {
                 Task {
                     await register()
                 }
-            }.disabled(!isFormValid)
+            }) {
+                Text("Register")
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(isFormValid ? Color.green : Color.gray)
+                    .cornerRadius(10)
+            }
+            .disabled(!isFormValid)
+            .padding(.horizontal)
             
-            Text(message)
+            if !message.isEmpty {
+                Text(message)
+                    .foregroundColor(message.contains("success") ? .green : .red)
+                    .font(.callout)
+                    .padding(.top)
+            }
             
-        }.navigationTitle("Register")
+            Spacer()
+        }
+        .padding()
+        .background(Color(.systemGroupedBackground).ignoresSafeArea())
+        .navigationTitle("Register")
     }
 }
 

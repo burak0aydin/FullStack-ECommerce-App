@@ -4,6 +4,7 @@ const cors = require('cors')
 const authRoutes = require('./routes/auth')
 const productRoutes = require('./routes/product')
 const cartRoutes = require('./routes/cart') 
+const authenticate = require('./middlewares/authMiddleware')
 
 const app = express()
 
@@ -21,7 +22,7 @@ app.use('/api/auth', authRoutes)
 app.use('/api/products', productRoutes)
 
 // cart routes 
-app.use('/api/cart', cartRoutes)
+app.use('/api/cart', authenticate, cartRoutes)
 
 // start the server 
 app.listen(8080, () => {
