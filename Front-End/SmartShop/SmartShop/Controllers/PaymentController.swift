@@ -13,6 +13,7 @@ struct PaymentController {
     
     let httpClient: HTTPClient
     
+    @MainActor
     func preparePaymentSheet(for cart: Cart) async throws -> PaymentSheet {
         
         let body = ["totalAmount": cart.total]
