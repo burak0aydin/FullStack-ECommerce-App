@@ -50,7 +50,7 @@ struct Product: Codable, Identifiable, Hashable {
 extension Product {
     
     static var preview: Product {
-        Product(id: 7, name: "Mirra Chair", description: "The Mirra chair by Herman Miller is an ergonomic office chair designed for comfort and support. It features an adjustable backrest, seat, and armrests, along with a flexible back that adapts to body movements. The chair's breathable mesh promotes airflow, while its responsive design encourages proper posture, making it ideal for long periods of sitting.", price: 850, photoUrl: URL(string: "http://localhost:8080/api/uploads/chair.png")!, userId: 7)
+        Product(id: 20, name: "Mirra Chair", description: "The Mirra chair by Herman Miller is an ergonomic office chair designed for comfort and support. It features an adjustable backrest, seat, and armrests, along with a flexible back that adapts to body movements. The chair's breathable mesh promotes airflow, while its responsive design encourages proper posture, making it ideal for long periods of sitting.", price: 850, photoUrl: URL(string: "http://localhost:8080/api/uploads/chair.png")!, userId: 6)
     }
     
     func encode() -> Data? {
@@ -132,41 +132,41 @@ extension Cart {
     static var preview: Cart {
         return Cart(
             id: 1,
-            userId: 101,
+            userId: 7,
             cartItems: [
                 CartItem(
                     id: 1,
                     product: Product(
-                        id: 30,
+                        id: 7,
                         name: "Coffee",
                         description: "A rich, aromatic blend of premium coffee beans.",
                         price: 5.99,
                         photoUrl: URL(string: "https://picsum.photos/200/300"),
-                        userId: 101
+                        userId: 7
                     ),
                     quantity: 2
                 ),
                 CartItem(
                     id: 2,
                     product: Product(
-                        id: 202,
+                        id: 7,
                         name: "Tea",
                         description: "Refreshing green tea with hints of mint.",
                         price: 3.49,
                         photoUrl: URL(string: "https://picsum.photos/200/300"),
-                        userId: 101
+                        userId: 7
                     ),
                     quantity: 1
                 ),
                 CartItem(
                     id: 3,
                     product: Product(
-                        id: 31,
+                        id: 7,
                         name: "Hot Chocolate",
                         description: "Smooth and creamy hot chocolate.",
                         price: 4.99,
                         photoUrl: URL(string: "https://picsum.photos/200/300"),
-                        userId: 101
+                        userId: 7
                     ),
                     quantity: 3
                 )

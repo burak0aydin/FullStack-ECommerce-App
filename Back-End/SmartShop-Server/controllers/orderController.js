@@ -1,10 +1,17 @@
+const { validationResult } = require('express-validator')
 const models = require('../models')
 const cartController = require('./cartController')
 
 exports.createOrder = async (req, res) => {
     
-    const userId = req.userId 
+    const errors = validationResult(req)
+    
+    if (!errors.isEmpty()) {
+        const msg = errors.array().map(error => error.msg).join('')
+        return res.status(422).json({ message: msg, success: false });
+    }
 
+    const userId = req.userId 
     const { total, order_items } = req.body 
 
     // start a transaction 

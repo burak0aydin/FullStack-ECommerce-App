@@ -21,7 +21,6 @@ struct SmartShopApp: App {
         await cartStore.loadCart()
         
         do {
-            
             try await userStore.loadUserInfo()
         } catch {
             print(error.localizedDescription)
