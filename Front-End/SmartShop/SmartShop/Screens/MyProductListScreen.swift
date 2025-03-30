@@ -42,6 +42,13 @@ struct MyProductListScreen: View {
         .task {
           await loadMyProducts()
         }
+        .task(id: userId) {
+            // Kullanıcı ID'si değiştiğinde (giriş yapıldığında) hata mesajını temizle
+            if userId != nil {
+                message = nil
+                await loadMyProducts()
+            }
+        }
         .toolbar(content: {
             ToolbarItem(placement: .topBarTrailing) {
                 Button("Add Product") {
