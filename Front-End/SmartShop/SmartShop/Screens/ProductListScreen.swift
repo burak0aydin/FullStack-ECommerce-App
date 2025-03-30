@@ -14,12 +14,18 @@ struct ProductListScreen: View {
     var body: some View {
         List(productStore.products) { product in
             
-            NavigationLink {
-                ProductDetailScreen(product: product)
-            } label: {
+            ZStack {
+                
+                NavigationLink {
+                    ProductDetailScreen(product: product)
+                } label: {
+                    EmptyView()
+                }.opacity(0)
+                
                 ProductCellView(product: product)
-                    //.listRowSeparator(.hidden)
             }
+            
+            
            
         }
         .listStyle(.plain)

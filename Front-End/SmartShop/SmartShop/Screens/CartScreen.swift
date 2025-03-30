@@ -46,7 +46,10 @@ struct CartScreen: View {
             } else {
                 ContentUnavailableView("No items in the cart.", systemImage: "cart")
             }
-        }.navigationDestination(isPresented: $proceedToCheckout) {
+        }
+        .listStyle(.plain)
+        .navigationTitle("Cart")
+        .navigationDestination(isPresented: $proceedToCheckout) {
             if let cart = cartStore.cart {
                 CheckoutScreen(cart: cart)
             }

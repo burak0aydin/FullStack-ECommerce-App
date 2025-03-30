@@ -94,12 +94,14 @@ struct CheckoutScreen: View {
             }
             
         }
+        .listStyle(.plain)
+        .navigationTitle("Checkout")
         .navigationDestination(isPresented: $presentOrderConfirmationScreen, destination: {
             OrderConfirmationScreen()
                 .navigationBarBackButtonHidden()
         })
-        
-        .task {
+         
+        .task(id: cart) {
             do {
                 paymentSheet = try await paymentController.preparePaymentSheet(for: cart)
             } catch {

@@ -50,7 +50,7 @@ struct Product: Codable, Identifiable, Hashable {
 extension Product {
     
     static var preview: Product {
-        Product(id: 20, name: "Mirra Chair", description: "The Mirra chair by Herman Miller is an ergonomic office chair designed for comfort and support. It features an adjustable backrest, seat, and armrests, along with a flexible back that adapts to body movements. The chair's breathable mesh promotes airflow, while its responsive design encourages proper posture, making it ideal for long periods of sitting.", price: 850, photoUrl: URL(string: "http://localhost:8080/api/uploads/chair.png")!, userId: 6)
+        Product(id: 7, name: "Mirra Chair", description: "The Mirra chair by Herman Miller is an ergonomic office chair designed for comfort and support. It features an adjustable backrest, seat, and armrests, along with a flexible back that adapts to body movements. The chair's breathable mesh promotes airflow, while its responsive design encourages proper posture, making it ideal for long periods of sitting.", price: 850, photoUrl: URL(string: "http://localhost:8080/api/uploads/chair.png")!, userId: 7)
     }
     
     func encode() -> Data? {
@@ -80,7 +80,7 @@ struct UpdateProductResponse: Codable {
     let product: Product?
 }
 
-struct Cart: Codable {
+struct Cart: Codable, Hashable {
     var id: Int?
     let userId: Int
     var cartItems: [CartItem] = []
@@ -103,7 +103,7 @@ struct Cart: Codable {
     }
 }
 
-struct CartItem: Codable, Identifiable {
+struct CartItem: Codable, Identifiable, Hashable {
     let id: Int?
     let product: Product
     var quantity: Int = 1
