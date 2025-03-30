@@ -28,3 +28,8 @@ enum CartError: Error {
 enum PaymentServiceError: Error {
     case missingPaymentDetails
 }
+
+enum OrderError: Error {
+    case saveFailed(String)
+}
+

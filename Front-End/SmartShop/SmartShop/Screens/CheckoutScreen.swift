@@ -14,10 +14,38 @@ struct CheckoutScreen: View {
     
     @Environment(\.paymentController) private var paymentController
     @Environment(UserStore.self) private var userStore
+    @Environment(OrderStore.self) private var orderStore
+    @Environment(CartStore.self) private var cartStore
     @State private var paymentSheet: PaymentSheet?
     
+    @State private var presentOrderConfirmationScreen: Bool = false
+    
     private func paymentCompletion(result: PaymentSheetResult) {
-        print(result)
+        switch result {
+            case .completed:
+                Task {
+                    do {
+                        // convert cart to order
+                        let order = Order(from: cart)
+                        // save the order
+                        try await orderStore.saveOrder(order: order)
+                        
+                        // empty the cart
+                        cartStore.emptyCart()
+                        
+                        // present order confirmation screen
+                        presentOrderConfirmationScreen = true
+                        
+                    } catch {
+                        print(error.localizedDescription)
+                    }
+                }
+                
+            case .canceled:
+                print("Payment canceled")
+            case .failed(let error):
+                print(error)
+        }
     }
     
     var body: some View {
@@ -65,7 +93,13 @@ struct CheckoutScreen: View {
                 
             }
             
-        }.task {
+        }
+        .navigationDestination(isPresented: $presentOrderConfirmationScreen, destination: {
+            OrderConfirmationScreen()
+                .navigationBarBackButtonHidden()
+        })
+        
+        .task {
             do {
                 paymentSheet = try await paymentController.preparePaymentSheet(for: cart)
             } catch {
@@ -82,4 +116,5 @@ struct CheckoutScreen: View {
     .environment(UserStore(httpClient: .development))
     .environment(CartStore(httpClient: .development))
     .environment(\.paymentController, PaymentController(httpClient: .development))
+    .environment(OrderStore(httpClient: .development))
 }

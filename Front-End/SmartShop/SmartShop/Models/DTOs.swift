@@ -275,3 +275,7 @@ struct CreatePaymentIntentResponse: Codable {
     }
 }
 
+struct SaveOrderResponse: Codable {
+    let success: Bool
+    let message: String?
+}
