@@ -24,3 +24,7 @@ enum UserError: Error {
 enum CartError: Error {
     case operationFailed(String)
 }
+
+enum PaymentServiceError: Error {
+    case missingPaymentDetails
+}

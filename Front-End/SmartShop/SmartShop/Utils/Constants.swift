@@ -19,7 +19,7 @@ struct Constants {
         static let loadCart = URL(string: "http://localhost:8080/api/cart")!
         static let updateUserInfo = URL(string: "http://localhost:8080/api/user")!
         static let loadUserInfo = URL(string: "http://localhost:8080/api/user")!
-        
+        static let createPaymentIntent = URL(string: "http://localhost:8080/api/payment/create-payment-intent")!
         
         static func deleteCartItem(_ cartItemId: Int) -> URL {
             URL(string: "http://localhost:8080/api/cart/item/\(cartItemId)")!
