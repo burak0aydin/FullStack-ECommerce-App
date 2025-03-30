@@ -37,4 +37,4 @@ const authenticate = async (req, res, next) => {
 
 }
 
-module.exports = authenticate 
+module.exports = authenticate  

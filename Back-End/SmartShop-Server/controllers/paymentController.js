@@ -17,7 +17,7 @@ exports.createPaymentIntent = async (req, res) => {
 
     const ephemeralKey = await stripe.ephemeralKeys.create(
         { customer: customer.id }, 
-        { apiVersion: '2025-02-24.acacia' }
+        { apiVersion: '2017-06-05' }
     )
 
     // create payment intent 
@@ -38,3 +38,7 @@ exports.createPaymentIntent = async (req, res) => {
     })
 
 }
+
+
+
+

@@ -35,7 +35,7 @@ app.use('/api/user', authenticate, userRoutes)
 app.use('/api/orders', authenticate, orderRoutes)
 
 // payment routes 
-app.use('/api/payment', paymentRoutes)
+app.use('/api/payment', authenticate, paymentRoutes)
 
 // start the server 
 app.listen(8080, () => {

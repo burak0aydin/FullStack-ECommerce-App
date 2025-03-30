@@ -78,9 +78,7 @@ exports.getMyProducts = async (req, res) => {
 
 exports.create = async (req, res) => {
 
-    console.log('create')
     const errors = validationResult(req)
-    console.log(errors)
 
     if (!errors.isEmpty()) {
         const msg = errors.array().map(error => error.msg).join('')
@@ -88,8 +86,6 @@ exports.create = async (req, res) => {
     }
 
     const { name, description, price, photo_url, user_id } = req.body
-
-    console.log(req.body)
 
     try {
         const newProduct = await models.Product.create({

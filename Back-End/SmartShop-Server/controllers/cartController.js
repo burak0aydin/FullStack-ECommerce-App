@@ -49,7 +49,7 @@ exports.loadCart = async (req, res) => {
 
         const cart = await models.Cart.findOne({
             where: {
-                user_id: 7, // MAKE SURE TO CHANGE THAT to request.userId
+                user_id: req.userId, 
                 is_active: true
             }, 
             attributes: ['id', 'user_id', 'is_active'], 
@@ -81,8 +81,6 @@ exports.addCartItem = async (req, res) => {
 
     const { productId, quantity } = req.body 
 
-    req.userId = 6 // MAKE SURE TO CHANGE THAT to request.userId
-
     try {
 
         // get the cart based on userId is_active: true 
@@ -95,7 +93,7 @@ exports.addCartItem = async (req, res) => {
 
         if(!cart) {
             // create a new cart 
-            cart = models.Cart.create({
+            cart = await models.Cart.create({
                 user_id: req.userId, 
                 is_active: true 
             })
