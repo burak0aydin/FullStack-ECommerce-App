@@ -20,8 +20,8 @@ authentication and error handling mechanisms.
 1. [Gereksinim Analizi](Gereksinim-Analizi.md)
 2. [Durum Diyagramı](Durum-Diyagramı.md)
 3. [Durum Senaryoları](Durum-Senaryoları.md)
-4. [Front-End](Front-End.md)
-5. [Back-End](Back-End.md)
+4. [Front-End](Front-End)
+5. [Back-End](Back-End)
 6. [Video Sunum](Sunum.md)
 
 **Technologies:**
