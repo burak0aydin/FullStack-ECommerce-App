@@ -25,6 +25,7 @@ authentication and error handling mechanisms.
 6. [Video Sunum](Sunum.md)
 
 **Technologies:**  
+
 **Languages:** • Swift • JavaScript • SQL  
 **Frameworks:** • SwiftUI • Express.js  
 **Backend & Databases:** • Node.js • PostgreSQL • Sequelize  
