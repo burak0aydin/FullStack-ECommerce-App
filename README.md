@@ -5,8 +5,20 @@ https://github.com/user-attachments/assets/d7053ad3-9baf-4d01-bcc8-a319d7dddc07
 
 **Proje Tanımı:**
 
-WORTHSHOP Mobil Uygulaması ile alışveriş deneyiminizi yepyeni bir boyuta taşıyın. Sade ve kullanıcı dostu tasarımı sayesinde ürünler arasında gezinmek oldukça pratik;
-uygulamanın hızlı çalışması, aradığınız her şeye anında erişebilmenizi sağlıyor. Geniş ürün portföyümüzde, en yeni trendleri yansıtan kaliteli markaların ürünleri yer alırken, güvenli ödeme seçenekleri ve hızlı teslimat hizmetlerimiz ile alışveriş süreciniz sorunsuz ilerliyor. WORTHSHOP olarak, müşteri memnuniyetini her zaman en üst seviyede tutmayı hedefliyoruz. Mobil uygulamamızı keşfedin ve alışverişte farkı yaşayın.
+SmartShop is a full-stack e-commerce application that offers users a seamless shopping experience. The app features a SwiftUI-based iOS
+frontend integrated with a Node.js backend and a PostgreSQL database. Users can browse products, manage their carts, and place orders
+through secure payment processing via Stripe. Both administrators and users can manage product listings, and the application includes robust
+authentication and error handling mechanisms.
+
+Technologies:
+• Languages: • Swift • JavaScript • SQL
+• Frameworks: • SwiftUI • Express.js
+• Backend & Databases: • Node.js • PostgreSQL • Sequelize
+• APIs & Data Formats: • RESTful API • JSON • JWTToken • Stripe API
+• Developer Tools: • Xcode • Visual Studio • Git & GitHub • Postman • Beekeeper Studio
+• Software Tools: • Auto Layout • CocoaPods
+• Design Patterns: • MVVM (Frontend) • MVC (Backend)
+• Soft Skills: • Agile & Scrum Methodologies • CI/CD Practices • Cross-functional Team Collaboration
 
 **Proje Kategorisi:** E-Ticaret
 
