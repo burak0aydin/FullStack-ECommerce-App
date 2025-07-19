@@ -1,0 +1,93 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: smartshop-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: smartshop
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+      POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./Back-End/SmartShop-Server/config/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - smartshop-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d smartshop"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # SmartShop Backend API
+  backend:
+    build: 
+      context: ./Back-End/SmartShop-Server
+      dockerfile: Dockerfile
+    container_name: smartshop-backend
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=production
+      - PORT=8080
+      - HOST=0.0.0.0
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=smartshop
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres123
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./Back-End/SmartShop-Server/uploads:/app/uploads:rw
+      - app_logs:/app/logs
+    networks:
+      - smartshop-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/api/products || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # Nginx Reverse Proxy (Optional for production)
+  nginx:
+    image: nginx:alpine
+    container_name: smartshop-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - nginx_logs:/var/log/nginx
+    depends_on:
+      - backend
+    networks:
+      - smartshop-network
+
+# Volumes for data persistence
+volumes:
+  postgres_data:
+    driver: local
+    name: smartshop_postgres_data
+  app_logs:
+    driver: local
+    name: smartshop_app_logs
+  nginx_logs:
+    driver: local
+    name: smartshop_nginx_logs
+
+# Network for service communication
+networks:
+  smartshop-network:
+    driver: bridge
+    name: smartshop_network

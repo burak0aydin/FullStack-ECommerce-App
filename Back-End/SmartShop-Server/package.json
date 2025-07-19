@@ -10,7 +10,13 @@
     "test:coverage": "NODE_ENV=test jest --coverage",
     "build": "echo 'Build completed successfully'",
     "lint": "echo 'Linting completed'",
-    "server": "node server.js"
+    "server": "node server.js",
+    "docker:build": "docker build -t smartshop-backend .",
+    "docker:build-dev": "docker build -f Dockerfile.dev -t smartshop-backend:dev .",
+    "docker:run": "docker run -p 8080:8080 --name smartshop-backend smartshop-backend",
+    "docker:run-dev": "docker run -p 8081:8080 --name smartshop-backend-dev smartshop-backend:dev",
+    "docker:stop": "docker stop smartshop-backend || true && docker rm smartshop-backend || true",
+    "docker:clean": "docker system prune -f"
   },
   "author": "",
   "license": "ISC",

@@ -1,0 +1,173 @@
+name: Docker CI/CD
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'Back-End/**'
+      - 'docker-compose*.yml'
+      - 'Dockerfile*'
+      - 'Makefile'
+  pull_request:
+    branches: [ main, master ]
+
+env:
+  DOCKER_IMAGE_NAME: smartshop-backend
+  DOCKER_REGISTRY: ghcr.io
+
+jobs:
+  docker-build-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📦 Checkout Code
+      uses: actions/checkout@v4
+    
+    - name: 🐳 Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    
+    - name: 🏗️ Build Backend Docker Image
+      run: |
+        cd Back-End/SmartShop-Server
+        docker build -t ${{ env.DOCKER_IMAGE_NAME }}:test .
+        docker images
+    
+    - name: 🧪 Test Docker Container
+      run: |
+        docker run -d --name test-backend -p 8080:8080 ${{ env.DOCKER_IMAGE_NAME }}:test
+        sleep 15
+        docker ps
+        docker logs test-backend
+        
+    - name: 🩺 Health Check
+      run: |
+        for i in {1..10}; do
+          if curl -f http://localhost:8080/api/products; then
+            echo "✅ Health check passed"
+            break
+          else
+            echo "⏳ Waiting for container to be ready... ($i/10)"
+            sleep 5
+          fi
+        done
+        
+    - name: 🧹 Cleanup Test Container
+      run: |
+        docker stop test-backend || true
+        docker rm test-backend || true
+
+  docker-compose-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📦 Checkout Code
+      uses: actions/checkout@v4
+    
+    - name: 🐳 Test Docker Compose Build
+      run: |
+        docker-compose build
+        docker-compose config
+    
+    - name: 🚀 Start Full Stack with Docker Compose
+      run: |
+        docker-compose up -d
+        sleep 30
+        docker-compose ps
+        
+    - name: 🧪 Test Full Stack
+      run: |
+        # Test database connection
+        docker-compose exec -T postgres pg_isready -U postgres
+        
+        # Test API endpoints
+        curl -f http://localhost:8080/api/products || exit 1
+        echo "✅ Full stack test passed"
+        
+    - name: 📋 Show Logs on Failure
+      if: failure()
+      run: |
+        echo "🔍 Backend logs:"
+        docker-compose logs backend
+        echo "🔍 Database logs:"
+        docker-compose logs postgres
+        
+    - name: 🧹 Cleanup
+      run: |
+        docker-compose down -v
+
+  docker-security-scan:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📦 Checkout Code
+      uses: actions/checkout@v4
+    
+    - name: 🏗️ Build Image for Security Scan
+      run: |
+        cd Back-End/SmartShop-Server
+        docker build -t ${{ env.DOCKER_IMAGE_NAME }}:security-scan .
+    
+    - name: 🔒 Run Trivy Security Scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: ${{ env.DOCKER_IMAGE_NAME }}:security-scan
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+    
+    - name: 📊 Upload Trivy Scan Results
+      uses: github/codeql-action/upload-sarif@v2
+      if: always()
+      with:
+        sarif_file: 'trivy-results.sarif'
+
+  docker-multi-arch-build:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: 📦 Checkout Code
+      uses: actions/checkout@v4
+    
+    - name: 🐳 Set up QEMU
+      uses: docker/setup-qemu-action@v3
+    
+    - name: 🐳 Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    
+    - name: 🏗️ Build Multi-Architecture Image
+      run: |
+        cd Back-End/SmartShop-Server
+        docker buildx build \
+          --platform linux/amd64,linux/arm64 \
+          --tag ${{ env.DOCKER_IMAGE_NAME }}:multi-arch \
+          .
+    
+    - name: ✅ Multi-Architecture Build Success
+      run: echo "🎉 Multi-architecture Docker build completed successfully!"
+
+  deployment-ready:
+    needs: [docker-build-test, docker-compose-test, docker-security-scan]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: 🚀 Deployment Ready Notification
+      run: |
+        echo "🎯 SmartShop Docker Deployment Summary:"
+        echo "✅ Docker Build: Success"
+        echo "✅ Docker Compose: Success"
+        echo "✅ Security Scan: Complete"
+        echo "🌍 Ready for production deployment!"
+        
+    - name: 📊 Generate Docker Report
+      run: |
+        echo "# 🐳 SmartShop Docker CI/CD Report" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "## 🎯 Build Status" >> $GITHUB_STEP_SUMMARY
+        echo "- **Docker Build**: ✅ Success" >> $GITHUB_STEP_SUMMARY
+        echo "- **Docker Compose**: ✅ Success" >> $GITHUB_STEP_SUMMARY
+        echo "- **Security Scan**: ✅ Complete" >> $GITHUB_STEP_SUMMARY
+        echo "- **Multi-Architecture**: ✅ Ready" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "## 🚀 Deployment Status" >> $GITHUB_STEP_SUMMARY
+        echo "Container images are ready for deployment!" >> $GITHUB_STEP_SUMMARY

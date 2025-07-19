@@ -17,6 +17,35 @@ authentication and error handling mechanisms.
 - **Code Quality**: Automated linting and testing
 - **Deployment Ready**: Automated build and deployment processes
 
+## 🐳 Docker Integration
+- **Containerized Architecture**: Full-stack application in Docker containers
+- **Docker Compose**: Multi-service orchestration (Backend + PostgreSQL + Nginx)
+- **Development Environment**: Hot-reload development container
+- **Production Ready**: Optimized production containers with health checks
+- **Security**: Non-root user, minimal attack surface
+- **Multi-Architecture**: Support for AMD64 and ARM64 platforms
+
+### 🚀 Quick Start with Docker
+```bash
+# Start production environment
+make prod
+
+# Start development environment  
+make dev
+
+# View all available commands
+make help
+
+# Clean up everything
+make clean
+```
+
+### 📊 Container Status
+- **Backend API**: http://localhost:8080
+- **Development API**: http://localhost:8081  
+- **Database**: PostgreSQL on port 5432
+- **Reverse Proxy**: Nginx on port 80
+
 **Proje Kategorisi:** E-Ticaret
 
 **Referans Uygulama:** [Application Design](Application-Design.md)

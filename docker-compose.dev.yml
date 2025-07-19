@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  # Development Database
+  postgres-dev:
+    image: postgres:15-alpine
+    container_name: smartshop-postgres-dev
+    environment:
+      POSTGRES_DB: smartshop_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+    networks:
+      - smartshop-dev-network
+
+  # Development Backend with Hot Reload
+  backend-dev:
+    build: 
+      context: ./Back-End/SmartShop-Server
+      dockerfile: Dockerfile.dev
+    container_name: smartshop-backend-dev
+    ports:
+      - "8081:8080"
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=postgres-dev
+      - DB_PORT=5432
+      - DB_NAME=smartshop_dev
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres123
+    depends_on:
+      - postgres-dev
+    volumes:
+      - ./Back-End/SmartShop-Server:/app:cached
+      - /app/node_modules
+      - ./Back-End/SmartShop-Server/uploads:/app/uploads:rw
+    networks:
+      - smartshop-dev-network
+    command: npm run dev
+
+volumes:
+  postgres_dev_data:
+    name: smartshop_postgres_dev_data
+
+networks:
+  smartshop-dev-network:
+    driver: bridge
+    name: smartshop_dev_network
