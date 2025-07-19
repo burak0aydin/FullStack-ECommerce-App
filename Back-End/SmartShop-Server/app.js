@@ -38,6 +38,10 @@ app.use('/api/orders', authenticate, orderRoutes)
 app.use('/api/payment', authenticate, paymentRoutes)
 
 // start the server 
-app.listen(8080, () => {
-    console.log('Server is running.')
+const PORT = process.env.PORT || 8080;
+const HOST = process.env.HOST || '0.0.0.0';
+
+app.listen(PORT, HOST, () => {
+    console.log(`Server is running on http://${HOST}:${PORT}`);
+    console.log(`Network access: http://192.168.1.39:${PORT}`);
 })
