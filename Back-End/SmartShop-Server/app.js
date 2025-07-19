@@ -41,7 +41,13 @@ app.use('/api/payment', authenticate, paymentRoutes)
 const PORT = process.env.PORT || 8080;
 const HOST = process.env.HOST || '0.0.0.0';
 
-app.listen(PORT, HOST, () => {
-    console.log(`Server is running on http://${HOST}:${PORT}`);
-    console.log(`Network access: http://192.168.1.39:${PORT}`);
-})
+// Test ortamında değilse sunucuyu başlat
+if (process.env.NODE_ENV !== 'test') {
+    app.listen(PORT, HOST, () => {
+        console.log(`Server is running on http://${HOST}:${PORT}`);
+        console.log(`Network access: http://192.168.1.39:${PORT}`);
+    })
+}
+
+// Export app for testing
+module.exports = app;

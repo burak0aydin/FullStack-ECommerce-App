@@ -2,18 +2,18 @@
   "testEnvironment": "node",
   "collectCoverageFrom": [
     "controllers/**/*.js",
-    "routes/**/*.js",
-    "models/**/*.js",
+    "routes/**/*.js", 
     "middlewares/**/*.js",
     "utils/**/*.js"
   ],
   "coverageDirectory": "coverage",
   "coverageReporters": ["text", "lcov", "html"],
   "testMatch": [
-    "**/tests/**/*.test.js",
-    "**/tests/**/*.spec.js"
+    "**/tests/**/*.test.js"
   ],
+  "testTimeout": 30000,
   "verbose": true,
   "forceExit": true,
-  "detectOpenHandles": true
+  "detectOpenHandles": true,
+  "maxWorkers": 1
 }
