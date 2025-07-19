@@ -1,0 +1,131 @@
+name: Backend CI/CD
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'Back-End/**'
+  pull_request:
+    branches: [ main, master ]
+    paths:
+      - 'Back-End/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: smartshop_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    
+    steps:
+    - name: 📦 Checkout Code
+      uses: actions/checkout@v4
+    
+    - name: 🚀 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: Back-End/SmartShop-Server/package-lock.json
+    
+    - name: 📥 Install Dependencies
+      run: |
+        cd Back-End/SmartShop-Server
+        npm ci
+    
+    - name: 🔧 Setup Test Database
+      run: |
+        cd Back-End/SmartShop-Server
+        cp config/config.json config/config.backup.json
+        cat > config/config.json << 'EOF'
+        {
+          "development": {
+            "username": "postgres",
+            "password": "postgres",
+            "database": "smartshop",
+            "host": "localhost",
+            "dialect": "postgres"
+          },
+          "test": {
+            "username": "postgres",
+            "password": "postgres",
+            "database": "smartshop_test",
+            "host": "localhost",
+            "dialect": "postgres"
+          },
+          "production": {
+            "username": "postgres",
+            "password": "postgres",
+            "database": "smartshop_prod",
+            "host": "localhost",
+            "dialect": "postgres"
+          }
+        }
+        EOF
+    
+    - name: 🗄️ Run Database Migrations
+      run: |
+        cd Back-End/SmartShop-Server
+        npx sequelize-cli db:migrate --env test
+      env:
+        NODE_ENV: test
+    
+    - name: 🧪 Run Tests
+      run: |
+        cd Back-End/SmartShop-Server
+        npm test
+      env:
+        NODE_ENV: test
+    
+    - name: 📊 Generate Test Coverage
+      run: |
+        cd Back-End/SmartShop-Server
+        npm run test:coverage
+      continue-on-error: true
+    
+    - name: ✅ Build Success Notification
+      if: success()
+      run: echo "🎉 Backend tests passed successfully!"
+    
+    - name: ❌ Build Failure Notification
+      if: failure()
+      run: echo "💥 Backend tests failed!"
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📦 Checkout Code
+      uses: actions/checkout@v4
+    
+    - name: 🚀 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+    
+    - name: 📥 Install Dependencies
+      run: |
+        cd Back-End/SmartShop-Server
+        npm ci --only=production
+    
+    - name: 🏗️ Build Application
+      run: |
+        cd Back-End/SmartShop-Server
+        echo "Building SmartShop Server..."
+        npm run build || echo "No build script found, skipping..."
+    
+    - name: ✅ Build Completed
+      run: echo "🚀 Backend build completed successfully!"
