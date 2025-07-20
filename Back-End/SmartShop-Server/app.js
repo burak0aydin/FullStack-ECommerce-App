@@ -9,6 +9,7 @@ const orderRoutes = require('./routes/order')
 const paymentRoutes = require('./routes/payment')
 
 const authenticate = require('./middlewares/authMiddleware')
+const notificationService = require('./services/notificationService')
 
 const app = express()
 
@@ -43,9 +44,13 @@ const HOST = process.env.HOST || '0.0.0.0';
 
 // Test ortamında değilse sunucuyu başlat
 if (process.env.NODE_ENV !== 'test') {
-    app.listen(PORT, HOST, () => {
+    app.listen(PORT, HOST, async () => {
         console.log(`Server is running on http://${HOST}:${PORT}`);
         console.log(`Network access: http://192.168.1.39:${PORT}`);
+        
+        // 🚀 RabbitMQ bağlantısını başlat
+        console.log('🎯 RabbitMQ bağlantısı kuruluyor...');
+        await notificationService.connect();
     })
 }
 

@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator')
 const models = require('../models')
 const cartController = require('./cartController')
+const notificationService = require('../services/notificationService')
 
 exports.createOrder = async (req, res) => {
     
@@ -51,6 +52,19 @@ exports.createOrder = async (req, res) => {
 
         // commit the transaction 
         await transaction.commit() 
+
+        // 🚀 RabbitMQ Integration - Send order notification
+        try {
+            await notificationService.sendOrderNotification({
+                orderId: newOrder.id,
+                userId: userId,
+                total: total,
+                orderItems: order_items
+            });
+        } catch (rabbitError) {
+            // RabbitMQ hatası uygulamayı durdurmaz, sadece log'lanır
+            console.log('⚠️ RabbitMQ notification hatası:', rabbitError.message);
+        }
 
         return res.status(201).json({ success: true });
 

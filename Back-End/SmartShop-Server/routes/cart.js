@@ -2,13 +2,13 @@ const express = require('express')
 const router = express.Router() 
 const cartController = require('../controllers/cartController')
 
-// addCartItem  
+// Sepete ürün ekle 
 router.post('/items', cartController.addCartItem)
 
-// loadCart 
+//  Sepeti görüntüle
 router.get('/', cartController.loadCart)
 
-// delete cart item 
+//  Sepetten ürün çıkar
 // /api/cart/
 router.delete('/item/:cartItemId', cartController.removeCartItem)
 

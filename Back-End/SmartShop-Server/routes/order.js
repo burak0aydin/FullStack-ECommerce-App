@@ -4,7 +4,7 @@ const orderController = require('../controllers/orderController');
 const { validateCreateOrder } = require('../validators/validators')
 
 
-// create a new order 
+// Sipariş oluştur
 router.post('/create-order', validateCreateOrder, orderController.createOrder)
 
 module.exports = router 

@@ -43,8 +43,11 @@ services:
       - DB_NAME=smartshop
       - DB_USER=postgres
       - DB_PASSWORD=postgres123
+      - RABBITMQ_URL=amqp://admin:admin123@rabbitmq:5672
     depends_on:
       postgres:
+        condition: service_healthy
+      rabbitmq:
         condition: service_healthy
     volumes:
       - ./Back-End/SmartShop-Server/uploads:/app/uploads:rw
@@ -74,11 +77,35 @@ services:
     networks:
       - smartshop-network
 
+  # RabbitMQ Message Queue
+  rabbitmq:
+    image: rabbitmq:3.12-management-alpine
+    container_name: smartshop-rabbitmq
+    restart: unless-stopped
+    ports:
+      - "5672:5672"   # AMQP port
+      - "15672:15672" # Management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin123
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - smartshop-network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
 # Volumes for data persistence
 volumes:
   postgres_data:
     driver: local
     name: smartshop_postgres_data
+  rabbitmq_data:
+    driver: local
+    name: smartshop_rabbitmq_data
   app_logs:
     driver: local
     name: smartshop_app_logs

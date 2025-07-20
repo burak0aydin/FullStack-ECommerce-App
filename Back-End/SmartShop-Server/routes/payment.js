@@ -3,6 +3,7 @@ const router = express.Router()
 
 const paymentController = require('../controllers/paymentController')
 
+//Stripe ödeme işlemi başlat
 router.post('/create-payment-intent', paymentController.createPaymentIntent)
 
 module.exports = router 
