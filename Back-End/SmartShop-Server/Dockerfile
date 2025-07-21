@@ -13,7 +13,10 @@ WORKDIR /app
 COPY package*.json ./
 
 # Dependencies yükle
-RUN npm ci --only=production && npm cache clean --force
+RUN npm install --only=production
+# Sequelize CLI için ayrıca yükle  
+RUN npm install -g sequelize-cli
+RUN npm cache clean --force
 
 # Source kodu kopyala
 COPY . .

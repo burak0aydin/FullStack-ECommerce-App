@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # Development Database
   postgres-dev:
@@ -13,6 +11,18 @@ services:
       - "5433:5432"
     volumes:
       - postgres_dev_data:/var/lib/postgresql/data
+    networks:
+      - smartshop-dev-network
+      
+  # Development Redis
+  redis-dev:
+    image: redis:7-alpine
+    container_name: smartshop-redis-dev
+    ports:
+      - "6380:6379"
+    command: redis-server --save 60 1 --loglevel warning
+    volumes:
+      - redis_dev_data:/data
     networks:
       - smartshop-dev-network
 
@@ -44,6 +54,8 @@ services:
 volumes:
   postgres_dev_data:
     name: smartshop_postgres_dev_data
+  redis_dev_data:
+    name: smartshop_redis_dev_data
 
 networks:
   smartshop-dev-network:

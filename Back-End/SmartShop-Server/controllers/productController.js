@@ -4,6 +4,14 @@ const multer = require('multer')
 const path = require('path')
 const { validationResult } = require('express-validator');
 const { getFileNameFromUrl, deleteFile } = require('../utils/fileUtils');
+const redisService = require('../services/redisService');
+
+// Redis cache keys
+const CACHE_KEYS = {
+  ALL_PRODUCTS: 'all_products',
+  USER_PRODUCTS: (userId) => `user_products_${userId}`,
+  PRODUCT_DETAIL: (productId) => `product_${productId}`
+};
 
 // configure multer for file storage 
 const storage = multer.diskStorage({
@@ -52,32 +60,68 @@ exports.upload = async (req, res) => {
 }
 
 exports.getAllProducts = async (req, res) => {
-    const products = await models.Product.findAll({})
-    res.json(products)
+    try {
+        // 1. Check cache first
+        const cachedProducts = await redisService.get(CACHE_KEYS.ALL_PRODUCTS);
+        
+        if (cachedProducts) {
+            console.log('✅ Ürünler cache\'den alındı');
+            return res.json(cachedProducts);
+        }
+        
+        // 2. If not in cache, get from database
+        console.log('🔍 Ürünler veritabanından alınıyor...');
+        const products = await models.Product.findAll({});
+        
+        // 3. Store in cache for future requests (cache for 10 minutes)
+        await redisService.set(CACHE_KEYS.ALL_PRODUCTS, products, 600);
+        
+        res.json(products);
+    } catch (error) {
+        console.error('❌ Ürünleri getirme hatası:', error);
+        res.status(500).json({ 
+            message: 'Error retrieving products', 
+            success: false 
+        });
+    }
 }
 
 // /api/products/user/6
 exports.getMyProducts = async (req, res) => {
-
     try {
-        const userId = req.params.userId
+        const userId = req.params.userId;
+        
+        // 1. Check cache first
+        const cacheKey = CACHE_KEYS.USER_PRODUCTS(userId);
+        const cachedProducts = await redisService.get(cacheKey);
+        
+        if (cachedProducts) {
+            console.log(`✅ Kullanıcı ${userId} ürünleri cache'den alındı`);
+            return res.json(cachedProducts);
+        }
+        
+        // 2. If not in cache, get from database
+        console.log(`🔍 Kullanıcı ${userId} ürünleri veritabanından alınıyor...`);
         const products = await models.Product.findAll({
             where: {
                 user_id: userId
             }
-        })
-
-        res.json(products)
-
+        });
+        
+        // 3. Store in cache for future requests (cache for 5 minutes)
+        await redisService.set(cacheKey, products, 300);
+        
+        res.json(products);
     } catch (error) {
-        res.status(500).json({ message: 'Error retrieving products', success: false });
+        console.error('❌ Kullanıcı ürünlerini getirme hatası:', error);
+        res.status(500).json({ 
+            message: 'Error retrieving products', 
+            success: false 
+        });
     }
-
-
 }
 
 exports.create = async (req, res) => {
-
     const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
@@ -95,6 +139,10 @@ exports.create = async (req, res) => {
             photo_url: photo_url,
             user_id: user_id
         })
+        
+        // Invalidate related caches when a new product is created
+        await redisService.delete(CACHE_KEYS.ALL_PRODUCTS);
+        await redisService.delete(CACHE_KEYS.USER_PRODUCTS(user_id));
 
         res.status(201).json({ success: true, product: newProduct })
 
@@ -104,7 +152,6 @@ exports.create = async (req, res) => {
 }
 
 exports.deleteProduct = async (req, res) => {
-
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -135,17 +182,20 @@ exports.deleteProduct = async (req, res) => {
 
         // delete the file 
         await deleteFile(fileName)
+        
+        // Invalidate related caches
+        await redisService.delete(CACHE_KEYS.ALL_PRODUCTS);
+        await redisService.delete(CACHE_KEYS.USER_PRODUCTS(product.user_id));
+        await redisService.delete(CACHE_KEYS.PRODUCT_DETAIL(productId));
 
         return res.status(200).json({ message: `Product with ID ${productId} deleted successfully`, success: true });
 
     } catch (err) {
-        return res.status(500).json({ message: `Error deleting product ${error.message} `, success: false });
+        return res.status(500).json({ message: `Error deleting product ${err.message} `, success: false });
     }
-
 }
 
 exports.updateProduct = async (req, res) => {
-
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -177,19 +227,21 @@ exports.updateProduct = async (req, res) => {
             price, 
             photo_url
         })
+        
+        // Invalidate related caches
+        await redisService.delete(CACHE_KEYS.ALL_PRODUCTS);
+        await redisService.delete(CACHE_KEYS.USER_PRODUCTS(user_id));
+        await redisService.delete(CACHE_KEYS.PRODUCT_DETAIL(productId));
 
         return res.status(200).json({
             message: 'Product updated successfully', 
             success: true, 
             product 
         })
-
-
     } catch (err) {
         return res.status(500).json({
             message: 'An error occurred while updating the product',
             success: false
           });
     }
-
 }

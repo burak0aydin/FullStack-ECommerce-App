@@ -17,58 +17,58 @@ help: ## 📚 Bu yardım mesajını gösterir
 
 build: ## 🏗️  Docker image'larını build et
 	@echo "${GREEN}Building Docker images...${NC}"
-	docker-compose build --no-cache
+	docker compose build --no-cache
 	@echo "${GREEN}✅ Build completed!${NC}"
 
 run: prod ## 🚀 Production ortamında çalıştır (alias for prod)
 
 prod: ## 🏭 Production ortamında çalıştır
 	@echo "${GREEN}Starting SmartShop in production mode...${NC}"
-	docker-compose up -d
+	docker compose up -d
 	@echo "${GREEN}✅ Production environment started!${NC}"
 	@echo "${YELLOW}🌐 Backend API: http://localhost:8080${NC}"
 	@echo "${YELLOW}🗄️  Database: localhost:5432${NC}"
 
 dev: ## 🛠️  Development ortamında çalıştır
 	@echo "${GREEN}Starting SmartShop in development mode...${NC}"
-	docker-compose -f docker-compose.dev.yml up -d
+	docker compose -f docker-compose.dev.yml up -d
 	@echo "${GREEN}✅ Development environment started!${NC}"
 	@echo "${YELLOW}🌐 Dev Backend API: http://localhost:8081${NC}"
 	@echo "${YELLOW}🗄️  Dev Database: localhost:5433${NC}"
 
 down: ## 🛑 Container'ları durdur
 	@echo "${YELLOW}Stopping containers...${NC}"
-	docker-compose down
-	docker-compose -f docker-compose.dev.yml down
+	docker compose down
+	docker compose -f docker-compose.dev.yml down
 	@echo "${GREEN}✅ Containers stopped!${NC}"
 
 clean: ## 🧹 Tüm container'ları ve volume'ları temizle
 	@echo "${YELLOW}Cleaning up Docker resources...${NC}"
-	docker-compose down -v --remove-orphans
-	docker-compose -f docker-compose.dev.yml down -v --remove-orphans
+	docker compose down -v --remove-orphans
+	docker compose -f docker-compose.dev.yml down -v --remove-orphans
 	docker system prune -f
 	@echo "${GREEN}✅ Cleanup completed!${NC}"
 
 logs: ## 📋 Backend loglarını göster
 	@echo "${GREEN}Showing backend logs...${NC}"
-	docker-compose logs -f backend
+	docker compose logs -f backend
 
 logs-dev: ## 📋 Development backend loglarını göster
 	@echo "${GREEN}Showing development backend logs...${NC}"
-	docker-compose -f docker-compose.dev.yml logs -f backend-dev
+	docker compose -f docker-compose.dev.yml logs -f backend-dev
 
 status: ## 📊 Container durumlarını göster
 	@echo "${GREEN}📊 Container Status:${NC}"
 	@echo "${YELLOW}Production containers:${NC}"
-	docker-compose ps
+	docker compose ps
 	@echo "${YELLOW}Development containers:${NC}"
-	docker-compose -f docker-compose.dev.yml ps
+	docker compose -f docker-compose.dev.yml ps
 	@echo "${YELLOW}Docker images:${NC}"
 	docker images | grep smartshop
 
 test: ## 🧪 Container içinde testleri çalıştır
 	@echo "${GREEN}Running tests in container...${NC}"
-	docker-compose exec backend npm test
+	docker compose exec backend npm test
 
 test-build: ## 🧪 Test için container build et ve çalıştır
 	@echo "${GREEN}Building and testing container...${NC}"
@@ -77,7 +77,7 @@ test-build: ## 🧪 Test için container build et ve çalıştır
 
 health: ## 🏥 Container'ların health check'ini yap
 	@echo "${GREEN}Checking container health...${NC}"
-	docker-compose ps
+	docker compose ps
 	@echo "${YELLOW}Testing API endpoints...${NC}"
 	@curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/api/products && echo " ✅ Production API is healthy" || echo " ❌ Production API is down"
 	@curl -s -o /dev/null -w "%{http_code}" http://localhost:8081/api/products && echo " ✅ Development API is healthy" || echo " ❌ Development API is down"

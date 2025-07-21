@@ -10,6 +10,7 @@ const paymentRoutes = require('./routes/payment')
 
 const authenticate = require('./middlewares/authMiddleware')
 const notificationService = require('./services/notificationService')
+const redisService = require('./services/redisService')
 
 const app = express()
 
@@ -51,6 +52,9 @@ if (process.env.NODE_ENV !== 'test') {
         // 🚀 RabbitMQ bağlantısını başlat
         console.log('🎯 RabbitMQ bağlantısı kuruluyor...');
         await notificationService.connect();
+        
+        // 🚀 Redis bağlantısını başlat
+        await redisService.connect();
     })
 }
 

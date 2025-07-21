@@ -7,7 +7,7 @@ echo "🎯 RabbitMQ Demo Hazırlığı Başlatılıyor..."
 
 # 1. RabbitMQ ve PostgreSQL'i başlat
 echo "📡 RabbitMQ ve PostgreSQL başlatılıyor..."
-cd /Users/astigmatograf/Desktop/proje/FullStack-ECommerce-App
+cd /Users/astigmatograf/Desktop/10/FullStack-ECommerce-App
 docker compose up -d rabbitmq postgres
 
 # 2. Servislerin hazır olmasını bekle
