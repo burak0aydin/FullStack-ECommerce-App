@@ -36,7 +36,9 @@ authentication and error handling mechanisms.
 **Soft Skills:** • Agile & Scrum Methodologies • CI/CD Practices • Cross-functional Team Collaboration  
 
 **Kısa Uygulama Tanıtımı:**
-https://github.com/user-attachments/assets/d7053ad3-9baf-4d01-bcc8-a319d7dddc07
+
+https://github.com/user-attachments/assets/c42d6157-7101-49d2-8e5f-73439b81800d
+
 
 
 
