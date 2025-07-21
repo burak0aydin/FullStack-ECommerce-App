@@ -28,12 +28,15 @@ authentication and error handling mechanisms.
 
 **Languages:** • Swift • JavaScript • SQL  
 **Frameworks:** • SwiftUI • Express.js  
-**Backend & Databases:** • Node.js • PostgreSQL • Sequelize  
+**Backend & Databases:** • Node.js • PostgreSQL • Sequelize • Reddis  
 **APIs & Data Formats:** • RESTful API • JSON • JWTToken • Stripe API  
 **Developer Tools:** • Xcode • Visual Studio • Git & GitHub • Postman • Beekeeper Studio  
 **Software Tools:** • Auto Layout • CocoaPods  
 **Design Patterns:** • MVVM (Frontend) • MVC (Backend)  
+**Infrastructure & DevOps:** • Docker
+**Message Queue:** • RabbitMQ
 **Soft Skills:** • Agile & Scrum Methodologies • CI/CD Practices • Cross-functional Team Collaboration  
+
 
 **Kısa Uygulama Tanıtımı:**
 
