@@ -4,7 +4,7 @@
 [![iOS CI/CD](https://github.com/USERNAME/REPOSITORY/workflows/iOS%20CI/CD/badge.svg)](https://github.com/USERNAME/REPOSITORY/actions)
 [![Full Stack CI/CD](https://github.com/USERNAME/REPOSITORY/workflows/Full%20Stack%20CI/CD/badge.svg)](https://github.com/USERNAME/REPOSITORY/actions)
 
-**Proje Tanımı:**
+**Proje Tanımı:**123
 
 SmartShop is a full-stack e-commerce application that offers users a seamless shopping experience. The app features a SwiftUI-based iOS
 frontend integrated with a Node.js backend and a PostgreSQL database. Users can browse products, manage their carts, and place orders
