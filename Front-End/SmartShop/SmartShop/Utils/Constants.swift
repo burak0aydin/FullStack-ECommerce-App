@@ -14,7 +14,7 @@ struct Constants {
         #if targetEnvironment(simulator)
             return "http://localhost:8080"  // Simulator can use localhost
         #else
-            return "http://192.168.1.39:8080"  // Real device needs network IP
+            return "http://192.168.1.95:8080"  // Real device needs network IP
         #endif
     }()
     

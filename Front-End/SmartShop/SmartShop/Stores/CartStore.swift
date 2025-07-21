@@ -43,13 +43,18 @@ class CartStore {
     func loadCart() async {
         
         do {
+            print("🔄 Loading cart from: \(Constants.Urls.loadCart)")
             let resource = Resource(url: Constants.Urls.loadCart, modelType: CartResponse.self)
             let response = try await httpClient.load(resource)
             
             if let cart = response.cart, response.success {
                 self.cart = cart
+                print("✅ Successfully loaded cart with \(cart.cartItems.count) items")
+            } else {
+                print("⚠️ Cart response unsuccessful: \(response.message ?? "Unknown error")")
             }
         } catch {
+            print("❌ Error loading cart: \(error)")
             lastError = error
         }
     }

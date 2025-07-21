@@ -21,8 +21,15 @@ class ProductStore {
     }
     
     func loadAllProducts() async throws {
+        print("🔄 Loading all products from: \(Constants.Urls.products)")
         let resource = Resource(url: Constants.Urls.products, modelType: [Product].self)
-        products = try await httpClient.load(resource)
+        do {
+            products = try await httpClient.load(resource)
+            print("✅ Successfully loaded \(products.count) products")
+        } catch {
+            print("❌ Error loading products: \(error)")
+            throw error
+        }
     }
     
     func loadMyProducts(by userId: Int) async throws {

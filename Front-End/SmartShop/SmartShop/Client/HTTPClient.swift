@@ -70,11 +70,16 @@ struct HTTPClient {
     
     func load<T: Codable>(_ resource: Resource<T>) async throws -> T {
         
+        print("📡 HTTP Request: \(resource.method.name) \(resource.url)")
+        
         var request = URLRequest(url: resource.url)
         var headers: [String: String] = resource.headers ?? [: ]
         
         if let token = Keychain<String>.get("jwttoken") {
             headers["Authorization"] = "Bearer \(token)"
+            print("🔑 Using JWT token")
+        } else {
+            print("⚠️ No JWT token found")
         }
         
         // add headers to the request
@@ -111,14 +116,19 @@ struct HTTPClient {
         let (data, response) = try await session.data(for: request)
         
         guard let httpResponse = response as? HTTPURLResponse else {
+            print("❌ Invalid HTTP response")
             throw NetworkError.invalidResponse
         }
+        
+        print("📥 HTTP Response: \(httpResponse.statusCode) for \(resource.url)")
         
         // Check for specific HTTP errors
         switch httpResponse.statusCode {
             case 200...299:
+                print("✅ HTTP Success: \(httpResponse.statusCode)")
                 break // Success
             default:
+                print("❌ HTTP Error: \(httpResponse.statusCode)")
                 let errorResponse = try JSONDecoder().decode(ErrorResponse.self, from: data)
                 throw NetworkError.errorResponse(errorResponse)
         }
